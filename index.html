@@ -396,6 +396,48 @@ body.admin-mode #app{padding-top:calc(56px + 32px)}
 body.admin-mode #detail{top:calc(56px + 32px)}
 body.admin-mode #dir-panel{margin-top:0}
 body.admin-mode #legend{bottom:20px}
+
+/* ── Menu List section ── */
+.menu-list{display:flex;flex-direction:column;gap:6px}
+.menu-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:10px}
+.menu-item-img{width:44px;height:44px;border-radius:8px;object-fit:cover;border:1px solid var(--border);flex-shrink:0}
+.menu-item-img-fb{width:44px;height:44px;border-radius:8px;background:var(--green-pale);border:1px solid var(--green-border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.menu-item-info{flex:1;min-width:0}
+.menu-item-name{font-size:12px;font-weight:600;color:var(--ink);line-height:1.3}
+.menu-item-price{font-size:11px;color:var(--green);font-weight:700;margin-top:1px}
+.menu-item-desc{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.4}
+.menu-item-tag{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:3px}
+.menu-item-tag.specialty{background:#FDF3E3;color:#7A4A22}
+.menu-item-tag.popular{background:#FDE8E8;color:#B83030}
+.menu-item-tag.new{background:#E8F5EE;color:#1A6B3C}
+
+/* ── Specialty Drinks section ── */
+.specialty-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.specialty-card{background:var(--green-pale);border:1px solid var(--green-border);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.specialty-card-name{font-size:12px;font-weight:700;color:var(--green);line-height:1.3}
+.specialty-card-origin{font-size:10px;color:var(--ink3)}
+.specialty-card-desc{font-size:11px;color:var(--ink2);line-height:1.4;margin-top:2px}
+
+/* ── Bean Origin section ── */
+.bean-card{background:var(--bg);border:1.5px solid var(--green-border);border-radius:12px;overflow:hidden}
+.bean-card-header{background:var(--green);padding:10px 14px;display:flex;align-items:center;gap:8px}
+.bean-card-header-icon{font-size:20px}
+.bean-card-header-title{font-size:12px;font-weight:700;color:#fff;line-height:1.3}
+.bean-card-header-sub{font-size:10px;color:rgba(255,255,255,.75);margin-top:1px}
+.bean-card-body{padding:10px 14px;display:flex;flex-direction:column;gap:6px}
+.bean-row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
+.bean-row:last-child{border:none}
+.bean-key{color:var(--ink3);font-size:11px;display:flex;align-items:center;gap:5px}
+.bean-val{font-weight:600;color:var(--ink);text-align:right;max-width:60%}
+
+/* ── Farmer section ── */
+.farmer-card{background:var(--bg);border:1.5px solid var(--green-border);border-radius:12px;padding:12px 14px;display:flex;align-items:flex-start;gap:12px}
+.farmer-avatar{width:48px;height:48px;border-radius:50%;background:var(--green);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.farmer-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.farmer-info{flex:1;min-width:0}
+.farmer-name{font-size:13px;font-weight:700;color:var(--ink);line-height:1.3}
+.farmer-sub{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.4}
+.farmer-badge{display:inline-flex;align-items:center;gap:4px;margin-top:5px;padding:3px 9px;border-radius:20px;background:var(--green-pale);color:var(--green);font-size:10px;font-weight:700}
 </style>
 </head>
 <body>
@@ -582,6 +624,51 @@ body.admin-mode #legend{bottom:20px}
         <button class="add-prod-btn" onclick="addProductRow()">＋ Add Menu Item / Drink</button>
       </div>
 
+
+      <!-- Menu List -->
+      <div class="modal-section">
+        <div class="modal-section-title">☕ Menu List <span style="font-weight:400;font-size:10px;text-transform:none;letter-spacing:0">(full list shown in profile)</span></div>
+        <div class="prod-editor-list" id="menu-editor-list"></div>
+        <button class="add-prod-btn" onclick="addMenuRow()">＋ Add Menu Item</button>
+      </div>
+
+      <!-- Specialty Drinks -->
+      <div class="modal-section">
+        <div class="modal-section-title">✨ Signature Specialty Drinks</div>
+        <div class="prod-editor-list" id="specialty-editor-list"></div>
+        <button class="add-prod-btn" onclick="addSpecialtyRow()">＋ Add Specialty Drink</button>
+      </div>
+
+      <!-- Bean Origin -->
+      <div class="modal-section">
+        <div class="modal-section-title">🫘 Bean Origin</div>
+        <div class="form-row">
+          <div class="form-group"><label>Bean / Farm Name</label><input type="text" id="f-bean-name" placeholder="e.g. Mt. Matutum Arabica"></div>
+          <div class="form-group"><label>Location / Farm Address</label><input type="text" id="f-bean-location" placeholder="e.g. Tupi, South Cotabato"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Variety</label><input type="text" id="f-bean-variety" placeholder="e.g. Arabica, Robusta, Liberica"></div>
+          <div class="form-group"><label>Altitude</label><input type="text" id="f-bean-altitude" placeholder="e.g. 1,200 masl"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Processing Method</label><input type="text" id="f-bean-process" placeholder="e.g. Washed, Natural, Honey"></div>
+          <div class="form-group"><label>Flavor Notes</label><input type="text" id="f-bean-flavor" placeholder="e.g. Chocolate, Citrus, Floral"></div>
+        </div>
+      </div>
+
+      <!-- Farmer Profile -->
+      <div class="modal-section">
+        <div class="modal-section-title">👨‍🌾 Farmer Profile</div>
+        <div class="form-row">
+          <div class="form-group"><label>Farmer Name</label><input type="text" id="f-farmer-name" placeholder="e.g. Juan dela Cruz"></div>
+          <div class="form-group"><label>Farm Name</label><input type="text" id="f-farmer-farm" placeholder="e.g. Dela Cruz Coffee Farm"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Farmer Location</label><input type="text" id="f-farmer-location" placeholder="e.g. Surallah, South Cotabato"></div>
+          <div class="form-group"><label>Farming Since (Year)</label><input type="text" id="f-farmer-since" placeholder="e.g. 1998"></div>
+        </div>
+        <div class="form-group"><label>Farmer Photo URL</label><input type="text" id="f-farmer-photo" placeholder="https://i.imgur.com/…"><span class="form-hint">Use Imgur direct link (i.imgur.com/…)</span></div>
+      </div>
       <!-- Certifications -->
       <div class="modal-section">
         <div class="modal-section-title">Business Certifications</div>
@@ -681,6 +768,8 @@ function catStyle(cat){const k=(cat||'other').toLowerCase().trim();if(CAT_STYLES
 let allData=[],markers={},activeFilter='All',activeId=null,map;
 let modalMode='add',editingId=null,isSaving=false;
 let pendingProducts=[]; // [{name,photoUrl,featured}]
+let pendingMenuItems=[]; // [{name,price,desc,tag,photoUrl}]
+let pendingSpecialtyDrinks=[]; // [{name,origin,desc}]
 let userLat=null,userLng=null,userMarker=null,routeLayer=null;
 let dirMode='car',dirMSME=null,routeSteps=[],routeCoords=[];
 let isNavigating=false,watchId=null,currentStepIdx=0,spokenSteps=new Set(),arrivedShown=false;
@@ -857,7 +946,48 @@ function openDetail(id){
 
   document.getElementById('db').innerHTML=`
     ${m.description?`<div class="ds"><h3>About</h3><p>${esc(m.description)}</p></div>`:''}
-    <div class="ds"><h3>Menu Items (${prods.length})</h3>${galleryHTML}</div>
+
+    <div class="ds">
+      <h3>☕ Menu List</h3>
+      ${(()=>{
+        const items=m.menuItems||[];
+        if(!items.length) return '<p style="font-size:12px;color:var(--ink3);font-style:italic">No menu items listed yet.</p>';
+        return '<div class="menu-list">'+items.map(item=>{
+          const img=item.photoUrl?`<img class="menu-item-img" src="${esc(item.photoUrl)}" onerror="this.outerHTML='<div class=\\'menu-item-img-fb\\'>☕</div>'">`:`<div class="menu-item-img-fb">☕</div>`;
+          const tag=item.tag?`<div class="menu-item-tag ${esc(item.tag.toLowerCase())}">${esc(item.tag)}</div>`:'';
+          return `<div class="menu-item">${img}<div class="menu-item-info"><div class="menu-item-name">${esc(item.name)}</div>${item.price?`<div class="menu-item-price">₱${esc(item.price)}</div>`:''}${item.desc?`<div class="menu-item-desc">${esc(item.desc)}</div>`:''}${tag}</div></div>`;
+        }).join('')+'</div>';
+      })()}
+    </div>
+
+    <div class="ds">
+      <h3>✨ Signature Specialty Drinks</h3>
+      ${(()=>{
+        const drinks=m.specialtyDrinks||[];
+        if(!drinks.length) return '<p style="font-size:12px;color:var(--ink3);font-style:italic">No specialty drinks listed yet.</p>';
+        return '<div class="specialty-grid">'+drinks.map(d=>`<div class="specialty-card"><div class="specialty-card-name">☕ ${esc(d.name)}</div>${d.origin?`<div class="specialty-card-origin">🌱 ${esc(d.origin)}</div>`:''}${d.desc?`<div class="specialty-card-desc">${esc(d.desc)}</div>`:''}</div>`).join('')+'</div>';
+      })()}
+    </div>
+
+    <div class="ds">
+      <h3>🫘 Bean Origin</h3>
+      ${(()=>{
+        const b=m.beanOrigin||{};
+        if(!b.location&&!b.variety&&!b.altitude&&!b.process&&!b.flavor&&!b.name) return '<p style="font-size:12px;color:var(--ink3);font-style:italic">No bean origin info listed yet.</p>';
+        return `<div class="bean-card"><div class="bean-card-header"><div class="bean-card-header-icon">🫘</div><div><div class="bean-card-header-title">${esc(b.name||'Coffee Bean Source')}</div>${b.location?`<div class="bean-card-header-sub">📍 ${esc(b.location)}</div>`:''}</div></div><div class="bean-card-body">${b.variety?`<div class="bean-row"><span class="bean-key">🌿 Variety</span><span class="bean-val">${esc(b.variety)}</span></div>`:''}${b.altitude?`<div class="bean-row"><span class="bean-key">⛰ Altitude</span><span class="bean-val">${esc(b.altitude)}</span></div>`:''}${b.process?`<div class="bean-row"><span class="bean-key">⚙️ Process</span><span class="bean-val">${esc(b.process)}</span></div>`:''}${b.flavor?`<div class="bean-row"><span class="bean-key">👅 Flavor Notes</span><span class="bean-val">${esc(b.flavor)}</span></div>`:''}</div></div>`;
+      })()}
+    </div>
+
+    <div class="ds">
+      <h3>👨‍🌾 Farmer Profile</h3>
+      ${(()=>{
+        const f=m.farmer||{};
+        if(!f.name) return '<p style="font-size:12px;color:var(--ink3);font-style:italic">No farmer info listed yet.</p>';
+        const avatar=f.photoUrl?`<img src="${esc(f.photoUrl)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover" onerror="this.outerHTML='👨‍🌾'">`:'👨‍🌾';
+        return `<div class="farmer-card"><div class="farmer-avatar">${avatar}</div><div class="farmer-info"><div class="farmer-name">${esc(f.name)}</div>${f.farm?`<div class="farmer-sub">🌿 ${esc(f.farm)}</div>`:''}${f.location?`<div class="farmer-sub">📍 ${esc(f.location)}</div>`:''}${f.since?`<div class="farmer-sub">🗓 Farming since ${esc(f.since)}</div>`:''}<div class="farmer-badge">☕ Bean Supplier</div></div></div>`;
+      })()}
+    </div>
+
     <div class="ds">
       <h3>Cafe Info</h3>
       <div class="irow"><span class="ikey">Category</span><span class="ival">${esc(m.category)}</span></div>
@@ -872,7 +1002,7 @@ function openDetail(id){
     </div>
     ${m.contact?`<button class="d-copy-btn" onclick="copyTxt('${m.contact.replace(/'/g,"\\'")}','${m.name.replace(/'/g,"\\'")}')">📋 Copy Contact</button>`:''}
     ${isAdmin?`<button class="d-del-btn" onclick="deleteMSME('${esc(m.id)}')">🗑 Remove from Map</button>`:''}`;
-  document.getElementById('detail').classList.add('open');
+    document.getElementById('detail').classList.add('open');
 }
 function closeDetail(){document.getElementById('detail').classList.remove('open');}
 window.openDetail=openDetail;window.closeDetail=closeDetail;
@@ -912,6 +1042,57 @@ function toggleFeatured(i){
 }
 function removeProd(i){pendingProducts.splice(i,1);renderProdEditor();}
 window.addProductRow=addProductRow;window.updateProd=updateProd;window.toggleFeatured=toggleFeatured;window.removeProd=removeProd;
+// ═══════════════════════════════════════════════
+// MENU ITEM EDITOR
+// ═══════════════════════════════════════════════
+function renderMenuEditor(){
+  const el=document.getElementById('menu-editor-list');if(!el)return;el.innerHTML='';
+  pendingMenuItems.forEach((item,i)=>{
+    const div=document.createElement('div');div.className='prod-editor-item';div.style.flexWrap='wrap';div.style.gap='6px';
+    div.innerHTML=`
+      <div class="prod-editor-fields" style="flex-wrap:wrap;gap:5px">
+        <input type="text" placeholder="Item name *" value="${esc(item.name)}" style="flex:2;min-width:120px" oninput="updateMenuItem(${i},'name',this.value)">
+        <input type="text" placeholder="Price (e.g. 120)" value="${esc(item.price||'')}" style="flex:0.6;min-width:70px" oninput="updateMenuItem(${i},'price',this.value)">
+        <input type="text" placeholder="Description" value="${esc(item.desc||'')}" style="flex:3;min-width:160px" oninput="updateMenuItem(${i},'desc',this.value)">
+        <select style="flex:1;min-width:90px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;background:var(--surface)" onchange="updateMenuItem(${i},'tag',this.value)">
+          <option value="" ${!item.tag?'selected':''}>Tag…</option>
+          <option value="Specialty" ${item.tag==='Specialty'?'selected':''}>Specialty</option>
+          <option value="Popular" ${item.tag==='Popular'?'selected':''}>Popular</option>
+          <option value="New" ${item.tag==='New'?'selected':''}>New</option>
+        </select>
+        <input type="text" class="url-input" placeholder="Photo URL" value="${esc(item.photoUrl||'')}" style="flex:2;min-width:130px" oninput="updateMenuItem(${i},'photoUrl',this.value)">
+      </div>
+      <button class="prod-remove-btn" onclick="removeMenuItem(${i})">✕</button>`;
+    el.appendChild(div);
+  });
+}
+function addMenuRow(){pendingMenuItems.push({name:'',price:'',desc:'',tag:'',photoUrl:''});renderMenuEditor();}
+function updateMenuItem(i,field,val){pendingMenuItems[i][field]=val;}
+function removeMenuItem(i){pendingMenuItems.splice(i,1);renderMenuEditor();}
+window.addMenuRow=addMenuRow;window.updateMenuItem=updateMenuItem;window.removeMenuItem=removeMenuItem;
+
+// ═══════════════════════════════════════════════
+// SPECIALTY DRINKS EDITOR
+// ═══════════════════════════════════════════════
+function renderSpecialtyEditor(){
+  const el=document.getElementById('specialty-editor-list');if(!el)return;el.innerHTML='';
+  pendingSpecialtyDrinks.forEach((d,i)=>{
+    const div=document.createElement('div');div.className='prod-editor-item';div.style.flexWrap='wrap';
+    div.innerHTML=`
+      <div class="prod-editor-fields" style="flex-wrap:wrap;gap:5px">
+        <input type="text" placeholder="Drink name *" value="${esc(d.name)}" style="flex:2;min-width:130px" oninput="updateSpecialty(${i},'name',this.value)">
+        <input type="text" placeholder="Bean origin (e.g. Lake Sebu Arabica)" value="${esc(d.origin||'')}" style="flex:2;min-width:150px" oninput="updateSpecialty(${i},'origin',this.value)">
+        <input type="text" placeholder="Short description" value="${esc(d.desc||'')}" style="flex:3;min-width:180px" oninput="updateSpecialty(${i},'desc',this.value)">
+      </div>
+      <button class="prod-remove-btn" onclick="removeSpecialty(${i})">✕</button>`;
+    el.appendChild(div);
+  });
+}
+function addSpecialtyRow(){pendingSpecialtyDrinks.push({name:'',origin:'',desc:''});renderSpecialtyEditor();}
+function updateSpecialty(i,field,val){pendingSpecialtyDrinks[i][field]=val;}
+function removeSpecialty(i){pendingSpecialtyDrinks.splice(i,1);renderSpecialtyEditor();}
+window.addSpecialtyRow=addSpecialtyRow;window.updateSpecialty=updateSpecialty;window.removeSpecialty=removeSpecialty;
+
 
 // ═══════════════════════════════════════════════
 // CERT TOGGLES
@@ -952,6 +1133,8 @@ function openModal(){
   document.getElementById('modal-title').textContent='➕ Add New Cafe';
   document.getElementById('save-btn-text').textContent='Add to Map';
   ['f-name','f-desc','f-lat','f-lng','f-contact','f-logo'].forEach(id=>document.getElementById(id).value='');
+  ['f-bean-name','f-bean-location','f-bean-variety','f-bean-altitude','f-bean-process','f-bean-flavor','f-farmer-name','f-farmer-farm','f-farmer-location','f-farmer-since','f-farmer-photo'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  pendingMenuItems=[];pendingSpecialtyDrinks=[];renderMenuEditor();renderSpecialtyEditor();
   document.getElementById('f-cat').value='Specialty Coffee';document.getElementById('f-muni').value='Koronadal City';
   ['dti','mayors','bir','fda-lto','fda-cpr'].forEach(k=>setCertState(k,false,''));
   renderProdEditor();
@@ -977,6 +1160,14 @@ function openEditModal(id){
   setCertState('bir',     c.bir?.has,    c.bir?.num);
   setCertState('fda-lto', c.fdaLto?.has, c.fdaLto?.num);
   setCertState('fda-cpr', c.fdaCpr?.has, c.fdaCpr?.num);
+  // Populate new fields
+  pendingMenuItems=(m.menuItems||[]).map(x=>({...x}));
+  pendingSpecialtyDrinks=(m.specialtyDrinks||[]).map(x=>({...x}));
+  renderMenuEditor();renderSpecialtyEditor();
+  const bean=m.beanOrigin||{};
+  ['name','location','variety','altitude','process','flavor'].forEach(k=>{const el=document.getElementById('f-bean-'+k);if(el)el.value=bean[k]||'';});
+  const farmer=m.farmer||{};
+  ['name','farm','location','since','photo'].forEach(k=>{const el=document.getElementById('f-farmer-'+k);if(el)el.value=farmer[k]||'';});
   renderProdEditor();map.closePopup();
   document.getElementById('modal-overlay').classList.add('open');
 }
@@ -996,20 +1187,37 @@ async function saveMSME(){
   const logoUrl=document.getElementById('f-logo').value.trim();
   const certs=readCerts();
   const products=pendingProducts.filter(p=>p.name.trim());
+  const menuItems=pendingMenuItems.filter(x=>x.name.trim());
+  const specialtyDrinks=pendingSpecialtyDrinks.filter(x=>x.name.trim());
+  const beanOrigin={
+    name:(document.getElementById('f-bean-name')?.value||'').trim(),
+    location:(document.getElementById('f-bean-location')?.value||'').trim(),
+    variety:(document.getElementById('f-bean-variety')?.value||'').trim(),
+    altitude:(document.getElementById('f-bean-altitude')?.value||'').trim(),
+    process:(document.getElementById('f-bean-process')?.value||'').trim(),
+    flavor:(document.getElementById('f-bean-flavor')?.value||'').trim(),
+  };
+  const farmer={
+    name:(document.getElementById('f-farmer-name')?.value||'').trim(),
+    farm:(document.getElementById('f-farmer-farm')?.value||'').trim(),
+    location:(document.getElementById('f-farmer-location')?.value||'').trim(),
+    since:(document.getElementById('f-farmer-since')?.value||'').trim(),
+    photoUrl:(document.getElementById('f-farmer-photo')?.value||'').trim(),
+  };
   if(!name){alert('Please enter a business name.');return;}
   if(isNaN(lat)||isNaN(lng)){alert('Please enter valid Latitude and Longitude.');return;}
   isSaving=true;const btn=document.getElementById('modal-save-btn');btn.disabled=true;
   document.getElementById('save-btn-text').textContent='Saving…';
   if(modalMode==='edit'){
     const idx=allData.findIndex(x=>x.id===editingId);if(idx<0){isSaving=false;return;}
-    allData[idx]={...allData[idx],name,category:cat,municipality:muni,products,description:desc,lat,lng,contact,logoUrl,certs};
+    allData[idx]={...allData[idx],name,category:cat,municipality:muni,products,menuItems,specialtyDrinks,beanOrigin,farmer,description:desc,lat,lng,contact,logoUrl,certs};
     const ok=await saveToDB(allData);
     if(ok){refreshMarker(allData[idx]);buildChips();buildLegend();applyFilters();updateStats();closeModal();
       if(document.getElementById('detail').classList.contains('open'))openDetail(editingId);
       toast(`✅ "${name}" updated!`,'success');}
   }else{
     const newId=String(Date.now());
-    const entry={id:newId,name,category:cat,municipality:muni,products,description:desc,lat,lng,contact,logoUrl,certs};
+    const entry={id:newId,name,category:cat,municipality:muni,products,menuItems,specialtyDrinks,beanOrigin,farmer,description:desc,lat,lng,contact,logoUrl,certs};
     allData.push(entry);
     const ok=await saveToDB(allData);
     if(ok){buildChips();buildLegend();applyFilters();updateStats();placeMarker(entry);
