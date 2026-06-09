@@ -397,47 +397,30 @@ body.admin-mode #detail{top:calc(56px + 32px)}
 body.admin-mode #dir-panel{margin-top:0}
 body.admin-mode #legend{bottom:20px}
 
-/* ── Menu List section ── */
-.menu-list{display:flex;flex-direction:column;gap:6px}
-.menu-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:10px}
-.menu-item-img{width:44px;height:44px;border-radius:8px;object-fit:cover;border:1px solid var(--border);flex-shrink:0}
-.menu-item-img-fb{width:44px;height:44px;border-radius:8px;background:var(--green-pale);border:1px solid var(--green-border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.menu-item-info{flex:1;min-width:0}
-.menu-item-name{font-size:12px;font-weight:600;color:var(--ink);line-height:1.3}
-.menu-item-price{font-size:11px;color:var(--green);font-weight:700;margin-top:1px}
-.menu-item-desc{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.4}
-.menu-item-tag{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:3px}
-.menu-item-tag.specialty{background:#FDF3E3;color:#7A4A22}
-.menu-item-tag.popular{background:#FDE8E8;color:#B83030}
-.menu-item-tag.new{background:#E8F5EE;color:#1A6B3C}
-
-/* ── Specialty Drinks section ── */
-.specialty-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.specialty-card{background:var(--green-pale);border:1px solid var(--green-border);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
-.specialty-card-name{font-size:12px;font-weight:700;color:var(--green);line-height:1.3}
-.specialty-card-origin{font-size:10px;color:var(--ink3)}
-.specialty-card-desc{font-size:11px;color:var(--ink2);line-height:1.4;margin-top:2px}
-
-/* ── Bean Origin section ── */
-.bean-card{background:var(--bg);border:1.5px solid var(--green-border);border-radius:12px;overflow:hidden}
-.bean-card-header{background:var(--green);padding:10px 14px;display:flex;align-items:center;gap:8px}
-.bean-card-header-icon{font-size:20px}
-.bean-card-header-title{font-size:12px;font-weight:700;color:#fff;line-height:1.3}
-.bean-card-header-sub{font-size:10px;color:rgba(255,255,255,.75);margin-top:1px}
-.bean-card-body{padding:10px 14px;display:flex;flex-direction:column;gap:6px}
-.bean-row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
-.bean-row:last-child{border:none}
-.bean-key{color:var(--ink3);font-size:11px;display:flex;align-items:center;gap:5px}
-.bean-val{font-weight:600;color:var(--ink);text-align:right;max-width:60%}
-
-/* ── Farmer section ── */
-.farmer-card{background:var(--bg);border:1.5px solid var(--green-border);border-radius:12px;padding:12px 14px;display:flex;align-items:flex-start;gap:12px}
-.farmer-avatar{width:48px;height:48px;border-radius:50%;background:var(--green);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.farmer-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
-.farmer-info{flex:1;min-width:0}
-.farmer-name{font-size:13px;font-weight:700;color:var(--ink);line-height:1.3}
-.farmer-sub{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.4}
-.farmer-badge{display:inline-flex;align-items:center;gap:4px;margin-top:5px;padding:3px 9px;border-radius:20px;background:var(--green-pale);color:var(--green);font-size:10px;font-weight:700}
+/* ── Category Manager Modal ── */
+#catmgr-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;padding:1rem}
+#catmgr-overlay.open{display:flex}
+#catmgr-box{background:#fff;border-radius:16px;width:460px;max-width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);display:flex;flex-direction:column}
+.catmgr-head{padding:16px 20px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;background:#fff;z-index:1}
+.catmgr-head h2{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink)}
+.catmgr-head button{background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink3)}
+.catmgr-body{padding:16px 20px;display:flex;flex-direction:column;gap:8px}
+.catmgr-intro{font-size:12px;color:var(--ink3);line-height:1.6;padding:10px 12px;background:var(--bg);border-radius:8px;border:1px solid var(--border)}
+.catmgr-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;transition:border-color .15s}
+.catmgr-row.disabled-cat{opacity:.5}
+.catmgr-row-icon{font-size:20px;width:28px;text-align:center;flex-shrink:0}
+.catmgr-row-info{flex:1;min-width:0}
+.catmgr-row-name{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3}
+.catmgr-row-count{font-size:11px;color:var(--ink3);margin-top:1px}
+.catmgr-toggle{width:42px;height:24px;border-radius:20px;background:var(--border);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;border:none}
+.catmgr-toggle.on{background:var(--green)}
+.catmgr-toggle::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.catmgr-toggle.on::after{left:21px}
+.catmgr-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;position:sticky;bottom:0;background:#fff}
+/* hidden category chip */
+.chip.cat-hidden{display:none}
+/* hidden legend item */
+.leg-item.cat-hidden{display:none}
 </style>
 </head>
 <body>
@@ -523,6 +506,7 @@ body.admin-mode #legend{bottom:20px}
 <!-- Admin bar (shown when logged in) -->
 <div id="admin-bar">
   🛡 Admin Mode — You can add, edit, and delete Cafes
+  <button onclick="openCatMgr()">🗂 Manage Categories</button>
   <button onclick="adminLogout()">Logout</button>
 </div>
 
@@ -624,51 +608,6 @@ body.admin-mode #legend{bottom:20px}
         <button class="add-prod-btn" onclick="addProductRow()">＋ Add Menu Item / Drink</button>
       </div>
 
-
-      <!-- Menu List -->
-      <div class="modal-section">
-        <div class="modal-section-title">☕ Menu List <span style="font-weight:400;font-size:10px;text-transform:none;letter-spacing:0">(full list shown in profile)</span></div>
-        <div class="prod-editor-list" id="menu-editor-list"></div>
-        <button class="add-prod-btn" onclick="addMenuRow()">＋ Add Menu Item</button>
-      </div>
-
-      <!-- Specialty Drinks -->
-      <div class="modal-section">
-        <div class="modal-section-title">✨ Signature Specialty Drinks</div>
-        <div class="prod-editor-list" id="specialty-editor-list"></div>
-        <button class="add-prod-btn" onclick="addSpecialtyRow()">＋ Add Specialty Drink</button>
-      </div>
-
-      <!-- Bean Origin -->
-      <div class="modal-section">
-        <div class="modal-section-title">🫘 Bean Origin</div>
-        <div class="form-row">
-          <div class="form-group"><label>Bean / Farm Name</label><input type="text" id="f-bean-name" placeholder="e.g. Mt. Matutum Arabica"></div>
-          <div class="form-group"><label>Location / Farm Address</label><input type="text" id="f-bean-location" placeholder="e.g. Tupi, South Cotabato"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>Variety</label><input type="text" id="f-bean-variety" placeholder="e.g. Arabica, Robusta, Liberica"></div>
-          <div class="form-group"><label>Altitude</label><input type="text" id="f-bean-altitude" placeholder="e.g. 1,200 masl"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>Processing Method</label><input type="text" id="f-bean-process" placeholder="e.g. Washed, Natural, Honey"></div>
-          <div class="form-group"><label>Flavor Notes</label><input type="text" id="f-bean-flavor" placeholder="e.g. Chocolate, Citrus, Floral"></div>
-        </div>
-      </div>
-
-      <!-- Farmer Profile -->
-      <div class="modal-section">
-        <div class="modal-section-title">👨‍🌾 Farmer Profile</div>
-        <div class="form-row">
-          <div class="form-group"><label>Farmer Name</label><input type="text" id="f-farmer-name" placeholder="e.g. Juan dela Cruz"></div>
-          <div class="form-group"><label>Farm Name</label><input type="text" id="f-farmer-farm" placeholder="e.g. Dela Cruz Coffee Farm"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>Farmer Location</label><input type="text" id="f-farmer-location" placeholder="e.g. Surallah, South Cotabato"></div>
-          <div class="form-group"><label>Farming Since (Year)</label><input type="text" id="f-farmer-since" placeholder="e.g. 1998"></div>
-        </div>
-        <div class="form-group"><label>Farmer Photo URL</label><input type="text" id="f-farmer-photo" placeholder="https://i.imgur.com/…"><span class="form-hint">Use Imgur direct link (i.imgur.com/…)</span></div>
-      </div>
       <!-- Certifications -->
       <div class="modal-section">
         <div class="modal-section-title">Business Certifications</div>
@@ -719,14 +658,35 @@ body.admin-mode #legend{bottom:20px}
   </div>
 </div>
 
+
+<!-- Category Manager Modal -->
+<div id="catmgr-overlay">
+  <div id="catmgr-box">
+    <div class="catmgr-head">
+      <h2>🗂 Manage Categories</h2>
+      <button onclick="closeCatMgr()">✕</button>
+    </div>
+    <div class="catmgr-body">
+      <div class="catmgr-intro">
+        Toggle categories on or off. <strong>Hidden categories</strong> are invisible to visitors — their cafés won't appear on the map or sidebar. This setting is saved in your browser and only visible to admins.
+      </div>
+      <div id="catmgr-list"></div>
+    </div>
+    <div class="catmgr-foot">
+      <button class="btn-cancel" onclick="closeCatMgr()">Close</button>
+      <button class="btn-save" onclick="applyAndCloseCatMgr()">✅ Apply &amp; Close</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 // ═══════════════════════════════════════════════
 // CONFIG
 // ═══════════════════════════════════════════════
-const BIN_ID  = '6a216874da38895dfe862dbd'; // Paste your new JSONbin Bin ID
-const API_KEY = '$2a$10$a1e/AizzzXrdUaPhguiWJudsGiUD1d5rA0koAXOWFBrEybY.E6uki'; // Paste your JSONbin Master Key
+const BIN_ID  = 'YOUR_NEW_BIN_ID_HERE'; // Paste your new JSONbin Bin ID
+const API_KEY = 'YOUR_NEW_API_KEY_HERE'; // Paste your JSONbin Master Key
 const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 const JBIN_HEADERS = {'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Versioning':'false'};
 const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjI2ZmVmMzIxYTYzMjQ0M2Q5MzU3Y2NlODcxMDU1MzNhIiwiaCI6Im11cm11cjY0In0=';
@@ -770,6 +730,8 @@ let modalMode='add',editingId=null,isSaving=false;
 let pendingProducts=[]; // [{name,photoUrl,featured}]
 let pendingMenuItems=[]; // [{name,price,desc,tag,photoUrl}]
 let pendingSpecialtyDrinks=[]; // [{name,origin,desc}]
+// Hidden categories (admin-controlled, stored in localStorage)
+let hiddenCats=new Set(JSON.parse(localStorage.getItem('coffeeMapHiddenCats')||'[]'));
 let userLat=null,userLng=null,userMarker=null,routeLayer=null;
 let dirMode='car',dirMSME=null,routeSteps=[],routeCoords=[];
 let isNavigating=false,watchId=null,currentStepIdx=0,spokenSteps=new Set(),arrivedShown=false;
@@ -946,48 +908,7 @@ function openDetail(id){
 
   document.getElementById('db').innerHTML=`
     ${m.description?`<div class="ds"><h3>About</h3><p>${esc(m.description)}</p></div>`:''}
-
-    <div class="ds">
-      <h3>☕ Menu List</h3>
-      ${(()=>{
-        const items=m.menuItems||[];
-        if(!items.length) return '<p style="font-size:12px;color:var(--ink3);font-style:italic">No menu items listed yet.</p>';
-        return '<div class="menu-list">'+items.map(item=>{
-          const img=item.photoUrl?`<img class="menu-item-img" src="${esc(item.photoUrl)}" onerror="this.outerHTML='<div class=\\'menu-item-img-fb\\'>☕</div>'">`:`<div class="menu-item-img-fb">☕</div>`;
-          const tag=item.tag?`<div class="menu-item-tag ${esc(item.tag.toLowerCase())}">${esc(item.tag)}</div>`:'';
-          return `<div class="menu-item">${img}<div class="menu-item-info"><div class="menu-item-name">${esc(item.name)}</div>${item.price?`<div class="menu-item-price">₱${esc(item.price)}</div>`:''}${item.desc?`<div class="menu-item-desc">${esc(item.desc)}</div>`:''}${tag}</div></div>`;
-        }).join('')+'</div>';
-      })()}
-    </div>
-
-    <div class="ds">
-      <h3>✨ Signature Specialty Drinks</h3>
-      ${(()=>{
-        const drinks=m.specialtyDrinks||[];
-        if(!drinks.length) return '<p style="font-size:12px;color:var(--ink3);font-style:italic">No specialty drinks listed yet.</p>';
-        return '<div class="specialty-grid">'+drinks.map(d=>`<div class="specialty-card"><div class="specialty-card-name">☕ ${esc(d.name)}</div>${d.origin?`<div class="specialty-card-origin">🌱 ${esc(d.origin)}</div>`:''}${d.desc?`<div class="specialty-card-desc">${esc(d.desc)}</div>`:''}</div>`).join('')+'</div>';
-      })()}
-    </div>
-
-    <div class="ds">
-      <h3>🫘 Bean Origin</h3>
-      ${(()=>{
-        const b=m.beanOrigin||{};
-        if(!b.location&&!b.variety&&!b.altitude&&!b.process&&!b.flavor&&!b.name) return '<p style="font-size:12px;color:var(--ink3);font-style:italic">No bean origin info listed yet.</p>';
-        return `<div class="bean-card"><div class="bean-card-header"><div class="bean-card-header-icon">🫘</div><div><div class="bean-card-header-title">${esc(b.name||'Coffee Bean Source')}</div>${b.location?`<div class="bean-card-header-sub">📍 ${esc(b.location)}</div>`:''}</div></div><div class="bean-card-body">${b.variety?`<div class="bean-row"><span class="bean-key">🌿 Variety</span><span class="bean-val">${esc(b.variety)}</span></div>`:''}${b.altitude?`<div class="bean-row"><span class="bean-key">⛰ Altitude</span><span class="bean-val">${esc(b.altitude)}</span></div>`:''}${b.process?`<div class="bean-row"><span class="bean-key">⚙️ Process</span><span class="bean-val">${esc(b.process)}</span></div>`:''}${b.flavor?`<div class="bean-row"><span class="bean-key">👅 Flavor Notes</span><span class="bean-val">${esc(b.flavor)}</span></div>`:''}</div></div>`;
-      })()}
-    </div>
-
-    <div class="ds">
-      <h3>👨‍🌾 Farmer Profile</h3>
-      ${(()=>{
-        const f=m.farmer||{};
-        if(!f.name) return '<p style="font-size:12px;color:var(--ink3);font-style:italic">No farmer info listed yet.</p>';
-        const avatar=f.photoUrl?`<img src="${esc(f.photoUrl)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover" onerror="this.outerHTML='👨‍🌾'">`:'👨‍🌾';
-        return `<div class="farmer-card"><div class="farmer-avatar">${avatar}</div><div class="farmer-info"><div class="farmer-name">${esc(f.name)}</div>${f.farm?`<div class="farmer-sub">🌿 ${esc(f.farm)}</div>`:''}${f.location?`<div class="farmer-sub">📍 ${esc(f.location)}</div>`:''}${f.since?`<div class="farmer-sub">🗓 Farming since ${esc(f.since)}</div>`:''}<div class="farmer-badge">☕ Bean Supplier</div></div></div>`;
-      })()}
-    </div>
-
+    <div class="ds"><h3>Menu Items (${prods.length})</h3>${galleryHTML}</div>
     <div class="ds">
       <h3>Cafe Info</h3>
       <div class="irow"><span class="ikey">Category</span><span class="ival">${esc(m.category)}</span></div>
@@ -1002,7 +923,7 @@ function openDetail(id){
     </div>
     ${m.contact?`<button class="d-copy-btn" onclick="copyTxt('${m.contact.replace(/'/g,"\\'")}','${m.name.replace(/'/g,"\\'")}')">📋 Copy Contact</button>`:''}
     ${isAdmin?`<button class="d-del-btn" onclick="deleteMSME('${esc(m.id)}')">🗑 Remove from Map</button>`:''}`;
-    document.getElementById('detail').classList.add('open');
+  document.getElementById('detail').classList.add('open');
 }
 function closeDetail(){document.getElementById('detail').classList.remove('open');}
 window.openDetail=openDetail;window.closeDetail=closeDetail;
@@ -1042,57 +963,6 @@ function toggleFeatured(i){
 }
 function removeProd(i){pendingProducts.splice(i,1);renderProdEditor();}
 window.addProductRow=addProductRow;window.updateProd=updateProd;window.toggleFeatured=toggleFeatured;window.removeProd=removeProd;
-// ═══════════════════════════════════════════════
-// MENU ITEM EDITOR
-// ═══════════════════════════════════════════════
-function renderMenuEditor(){
-  const el=document.getElementById('menu-editor-list');if(!el)return;el.innerHTML='';
-  pendingMenuItems.forEach((item,i)=>{
-    const div=document.createElement('div');div.className='prod-editor-item';div.style.flexWrap='wrap';div.style.gap='6px';
-    div.innerHTML=`
-      <div class="prod-editor-fields" style="flex-wrap:wrap;gap:5px">
-        <input type="text" placeholder="Item name *" value="${esc(item.name)}" style="flex:2;min-width:120px" oninput="updateMenuItem(${i},'name',this.value)">
-        <input type="text" placeholder="Price (e.g. 120)" value="${esc(item.price||'')}" style="flex:0.6;min-width:70px" oninput="updateMenuItem(${i},'price',this.value)">
-        <input type="text" placeholder="Description" value="${esc(item.desc||'')}" style="flex:3;min-width:160px" oninput="updateMenuItem(${i},'desc',this.value)">
-        <select style="flex:1;min-width:90px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;background:var(--surface)" onchange="updateMenuItem(${i},'tag',this.value)">
-          <option value="" ${!item.tag?'selected':''}>Tag…</option>
-          <option value="Specialty" ${item.tag==='Specialty'?'selected':''}>Specialty</option>
-          <option value="Popular" ${item.tag==='Popular'?'selected':''}>Popular</option>
-          <option value="New" ${item.tag==='New'?'selected':''}>New</option>
-        </select>
-        <input type="text" class="url-input" placeholder="Photo URL" value="${esc(item.photoUrl||'')}" style="flex:2;min-width:130px" oninput="updateMenuItem(${i},'photoUrl',this.value)">
-      </div>
-      <button class="prod-remove-btn" onclick="removeMenuItem(${i})">✕</button>`;
-    el.appendChild(div);
-  });
-}
-function addMenuRow(){pendingMenuItems.push({name:'',price:'',desc:'',tag:'',photoUrl:''});renderMenuEditor();}
-function updateMenuItem(i,field,val){pendingMenuItems[i][field]=val;}
-function removeMenuItem(i){pendingMenuItems.splice(i,1);renderMenuEditor();}
-window.addMenuRow=addMenuRow;window.updateMenuItem=updateMenuItem;window.removeMenuItem=removeMenuItem;
-
-// ═══════════════════════════════════════════════
-// SPECIALTY DRINKS EDITOR
-// ═══════════════════════════════════════════════
-function renderSpecialtyEditor(){
-  const el=document.getElementById('specialty-editor-list');if(!el)return;el.innerHTML='';
-  pendingSpecialtyDrinks.forEach((d,i)=>{
-    const div=document.createElement('div');div.className='prod-editor-item';div.style.flexWrap='wrap';
-    div.innerHTML=`
-      <div class="prod-editor-fields" style="flex-wrap:wrap;gap:5px">
-        <input type="text" placeholder="Drink name *" value="${esc(d.name)}" style="flex:2;min-width:130px" oninput="updateSpecialty(${i},'name',this.value)">
-        <input type="text" placeholder="Bean origin (e.g. Lake Sebu Arabica)" value="${esc(d.origin||'')}" style="flex:2;min-width:150px" oninput="updateSpecialty(${i},'origin',this.value)">
-        <input type="text" placeholder="Short description" value="${esc(d.desc||'')}" style="flex:3;min-width:180px" oninput="updateSpecialty(${i},'desc',this.value)">
-      </div>
-      <button class="prod-remove-btn" onclick="removeSpecialty(${i})">✕</button>`;
-    el.appendChild(div);
-  });
-}
-function addSpecialtyRow(){pendingSpecialtyDrinks.push({name:'',origin:'',desc:''});renderSpecialtyEditor();}
-function updateSpecialty(i,field,val){pendingSpecialtyDrinks[i][field]=val;}
-function removeSpecialty(i){pendingSpecialtyDrinks.splice(i,1);renderSpecialtyEditor();}
-window.addSpecialtyRow=addSpecialtyRow;window.updateSpecialty=updateSpecialty;window.removeSpecialty=removeSpecialty;
-
 
 // ═══════════════════════════════════════════════
 // CERT TOGGLES
@@ -1133,8 +1003,6 @@ function openModal(){
   document.getElementById('modal-title').textContent='➕ Add New Cafe';
   document.getElementById('save-btn-text').textContent='Add to Map';
   ['f-name','f-desc','f-lat','f-lng','f-contact','f-logo'].forEach(id=>document.getElementById(id).value='');
-  ['f-bean-name','f-bean-location','f-bean-variety','f-bean-altitude','f-bean-process','f-bean-flavor','f-farmer-name','f-farmer-farm','f-farmer-location','f-farmer-since','f-farmer-photo'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  pendingMenuItems=[];pendingSpecialtyDrinks=[];renderMenuEditor();renderSpecialtyEditor();
   document.getElementById('f-cat').value='Specialty Coffee';document.getElementById('f-muni').value='Koronadal City';
   ['dti','mayors','bir','fda-lto','fda-cpr'].forEach(k=>setCertState(k,false,''));
   renderProdEditor();
@@ -1160,14 +1028,6 @@ function openEditModal(id){
   setCertState('bir',     c.bir?.has,    c.bir?.num);
   setCertState('fda-lto', c.fdaLto?.has, c.fdaLto?.num);
   setCertState('fda-cpr', c.fdaCpr?.has, c.fdaCpr?.num);
-  // Populate new fields
-  pendingMenuItems=(m.menuItems||[]).map(x=>({...x}));
-  pendingSpecialtyDrinks=(m.specialtyDrinks||[]).map(x=>({...x}));
-  renderMenuEditor();renderSpecialtyEditor();
-  const bean=m.beanOrigin||{};
-  ['name','location','variety','altitude','process','flavor'].forEach(k=>{const el=document.getElementById('f-bean-'+k);if(el)el.value=bean[k]||'';});
-  const farmer=m.farmer||{};
-  ['name','farm','location','since','photo'].forEach(k=>{const el=document.getElementById('f-farmer-'+k);if(el)el.value=farmer[k]||'';});
   renderProdEditor();map.closePopup();
   document.getElementById('modal-overlay').classList.add('open');
 }
@@ -1187,37 +1047,20 @@ async function saveMSME(){
   const logoUrl=document.getElementById('f-logo').value.trim();
   const certs=readCerts();
   const products=pendingProducts.filter(p=>p.name.trim());
-  const menuItems=pendingMenuItems.filter(x=>x.name.trim());
-  const specialtyDrinks=pendingSpecialtyDrinks.filter(x=>x.name.trim());
-  const beanOrigin={
-    name:(document.getElementById('f-bean-name')?.value||'').trim(),
-    location:(document.getElementById('f-bean-location')?.value||'').trim(),
-    variety:(document.getElementById('f-bean-variety')?.value||'').trim(),
-    altitude:(document.getElementById('f-bean-altitude')?.value||'').trim(),
-    process:(document.getElementById('f-bean-process')?.value||'').trim(),
-    flavor:(document.getElementById('f-bean-flavor')?.value||'').trim(),
-  };
-  const farmer={
-    name:(document.getElementById('f-farmer-name')?.value||'').trim(),
-    farm:(document.getElementById('f-farmer-farm')?.value||'').trim(),
-    location:(document.getElementById('f-farmer-location')?.value||'').trim(),
-    since:(document.getElementById('f-farmer-since')?.value||'').trim(),
-    photoUrl:(document.getElementById('f-farmer-photo')?.value||'').trim(),
-  };
   if(!name){alert('Please enter a business name.');return;}
   if(isNaN(lat)||isNaN(lng)){alert('Please enter valid Latitude and Longitude.');return;}
   isSaving=true;const btn=document.getElementById('modal-save-btn');btn.disabled=true;
   document.getElementById('save-btn-text').textContent='Saving…';
   if(modalMode==='edit'){
     const idx=allData.findIndex(x=>x.id===editingId);if(idx<0){isSaving=false;return;}
-    allData[idx]={...allData[idx],name,category:cat,municipality:muni,products,menuItems,specialtyDrinks,beanOrigin,farmer,description:desc,lat,lng,contact,logoUrl,certs};
+    allData[idx]={...allData[idx],name,category:cat,municipality:muni,products,description:desc,lat,lng,contact,logoUrl,certs};
     const ok=await saveToDB(allData);
     if(ok){refreshMarker(allData[idx]);buildChips();buildLegend();applyFilters();updateStats();closeModal();
       if(document.getElementById('detail').classList.contains('open'))openDetail(editingId);
       toast(`✅ "${name}" updated!`,'success');}
   }else{
     const newId=String(Date.now());
-    const entry={id:newId,name,category:cat,municipality:muni,products,menuItems,specialtyDrinks,beanOrigin,farmer,description:desc,lat,lng,contact,logoUrl,certs};
+    const entry={id:newId,name,category:cat,municipality:muni,products,description:desc,lat,lng,contact,logoUrl,certs};
     allData.push(entry);
     const ok=await saveToDB(allData);
     if(ok){buildChips();buildLegend();applyFilters();updateStats();placeMarker(entry);
@@ -1457,11 +1300,11 @@ function haversine(la1,lo1,la2,lo2){const R=6371,dLat=(la2-la1)*Math.PI/180,dLon
 // ═══════════════════════════════════════════════
 // FILTERS & LIST
 // ═══════════════════════════════════════════════
-function filtered(){const q=document.getElementById('search').value.trim().toLowerCase();return allData.filter(m=>{const mc=activeFilter==='All'||m.category===activeFilter;const mq=!q||[m.name,m.category,m.municipality,m.description,...(m.products||[]).map(p=>p.name)].some(s=>(s||'').toLowerCase().includes(q));return mc&&mq;});}
+function filtered(){const q=document.getElementById('search').value.trim().toLowerCase();return allData.filter(m=>{if(hiddenCats.has(m.category))return false;const mc=activeFilter==='All'||m.category===activeFilter;const mq=!q||[m.name,m.category,m.municipality,m.description,...(m.products||[]).map(p=>p.name)].some(s=>(s||'').toLowerCase().includes(q));return mc&&mq;});}
 function applyFilters(){const fd=filtered();allData.forEach(m=>{const show=fd.find(f=>f.id===m.id);if(show){placeMarker(m);map.addLayer(markers[m.id]);}else if(markers[m.id])map.removeLayer(markers[m.id]);});buildList(fd);document.getElementById('h-shown').textContent=fd.length;}
-function buildChips(){const cats=['All',...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('chips');el.innerHTML='';cats.forEach(cat=>{const cs=cat==='All'?null:catStyle(cat);const ch=document.createElement('div');ch.className='chip'+(cat===activeFilter?' on':'');ch.textContent=cat==='All'?'🗺 All':`${cs.icon} ${cat}`;ch.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));ch.classList.add('on');applyFilters();});el.appendChild(ch);});}
+function buildChips(){const cats=['All',...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('chips');el.innerHTML='';cats.forEach(cat=>{const cs=cat==='All'?null:catStyle(cat);const ch=document.createElement('div');const isHidden=cat!=='All'&&hiddenCats.has(cat);ch.className='chip'+(cat===activeFilter?' on':'')+(isHidden?' cat-hidden':'');ch.textContent=cat==='All'?'🗺 All':`${cs.icon} ${cat}`;ch.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));ch.classList.add('on');applyFilters();});el.appendChild(ch);});}
 function buildList(data){const el=document.getElementById('msme-list');const q=document.getElementById('search').value.trim().toLowerCase();el.innerHTML='';if(!data.length){el.innerHTML='<div class="no-results">😔 No cafes found</div>';return;}const hi=s=>q?esc(s).replace(new RegExp(`(${escRe(q)})`,'gi'),'<mark>$1</mark>'):esc(s);data.forEach(m=>{const cs=catStyle(m.category);const card=document.createElement('div');card.className='mcard'+(m.id===activeId?' active':'');card.dataset.id=m.id;const logo=m.logoUrl?`<img class="mcard-logo" src="${esc(m.logoUrl)}" onerror="this.outerHTML='<div class=\\'mcard-logo-fb\\' style=\\'background:${cs.bg}\\'>${cs.icon}</div>'">`:`<div class="mcard-logo-fb" style="background:${cs.bg}">${cs.icon}</div>`;const prods=(m.products||[]).slice(0,3).map(p=>hi(p.name)).join(' · ');card.innerHTML=`${logo}<div class="mcard-info"><div class="mcard-name">${hi(m.name)}</div><div class="mcard-cat">${cs.icon} ${esc(m.category)}</div><div class="mcard-muni">📍 ${hi(m.municipality||'—')}</div><div class="mcard-prods">${prods||'—'}</div></div>`;card.addEventListener('click',()=>selectMSME(m.id));el.appendChild(card);});}
-function buildLegend(){const cats=[...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('leg-items');el.innerHTML='';cats.forEach(cat=>{const cs=catStyle(cat);const item=document.createElement('div');item.className='leg-item';item.innerHTML=`<div class="ldot" style="background:${cs.color}"></div><span>${cs.icon} ${esc(cat)}</span>`;item.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.textContent.includes(cat)));applyFilters();});el.appendChild(item);});}
+function buildLegend(){const cats=[...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('leg-items');el.innerHTML='';cats.forEach(cat=>{const cs=catStyle(cat);const isHidden=hiddenCats.has(cat);const item=document.createElement('div');item.className='leg-item'+(isHidden?' cat-hidden':'');item.innerHTML=`<div class="ldot" style="background:${cs.color}"></div><span>${cs.icon} ${esc(cat)}</span>`;item.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.textContent.includes(cat)));applyFilters();});el.appendChild(item);});}
 
 // ═══════════════════════════════════════════════
 // SELECT
@@ -1554,6 +1397,75 @@ window.closeAdminLogin=closeAdminLogin;
 window.togglePwVis=togglePwVis;
 window.doAdminLogin=doAdminLogin;
 window.adminLogout=adminLogout;
+
+
+// ═══════════════════════════════════════════════
+// CATEGORY MANAGER
+// ═══════════════════════════════════════════════
+function openCatMgr(){
+  if(!isAdmin){toast('Admin access required.','error');return;}
+  buildCatMgrList();
+  document.getElementById('catmgr-overlay').classList.add('open');
+}
+function closeCatMgr(){
+  document.getElementById('catmgr-overlay').classList.remove('open');
+}
+function applyAndCloseCatMgr(){
+  // Save to localStorage
+  localStorage.setItem('coffeeMapHiddenCats',JSON.stringify([...hiddenCats]));
+  closeCatMgr();
+  // Rebuild everything
+  buildChips();buildLegend();applyFilters();updateStats();
+  toast('✅ Category visibility updated','success');
+}
+function buildCatMgrList(){
+  const cats=[...new Set(allData.map(m=>m.category).filter(Boolean))].sort();
+  const el=document.getElementById('catmgr-list');
+  el.innerHTML='';
+  if(!cats.length){el.innerHTML='<p style="font-size:12px;color:var(--ink3);text-align:center;padding:1rem">No categories yet. Add some cafés first.</p>';return;}
+  cats.forEach(cat=>{
+    const cs=catStyle(cat);
+    const count=allData.filter(m=>m.category===cat).length;
+    const isHidden=hiddenCats.has(cat);
+    const row=document.createElement('div');
+    row.className='catmgr-row'+(isHidden?' disabled-cat':'');
+    row.id='catmgr-row-'+btoa(cat).replace(/=/g,'');
+    row.innerHTML=`
+      <div class="catmgr-row-icon">${cs.icon}</div>
+      <div class="catmgr-row-info">
+        <div class="catmgr-row-name">${esc(cat)}</div>
+        <div class="catmgr-row-count">${count} café${count!==1?'s':''} · ${isHidden?'<span style="color:var(--red)">Hidden from map</span>':'<span style="color:var(--green)">Visible to all</span>'}</div>
+      </div>
+      <button class="catmgr-toggle ${isHidden?'':'on'}" id="catmgr-tog-${btoa(cat).replace(/=/g,'')}" onclick="toggleCatVisibility('${esc(cat).replace(/'/g,"\\'")}',this)"></button>`;
+    el.appendChild(row);
+  });
+}
+function toggleCatVisibility(cat,btn){
+  const isCurrentlyOn=btn.classList.contains('on');
+  if(isCurrentlyOn){
+    // Turn off = hide
+    hiddenCats.add(cat);
+    btn.classList.remove('on');
+  }else{
+    // Turn on = show
+    hiddenCats.delete(cat);
+    btn.classList.add('on');
+  }
+  // Update row appearance
+  const rowId='catmgr-row-'+btoa(cat).replace(/=/g,'');
+  const row=document.getElementById(rowId);
+  if(row){
+    const isNowHidden=hiddenCats.has(cat);
+    row.classList.toggle('disabled-cat',isNowHidden);
+    const countEl=row.querySelector('.catmgr-row-count');
+    const count=allData.filter(m=>m.category===cat).length;
+    countEl.innerHTML=`${count} café${count!==1?'s':''} · ${isNowHidden?'<span style="color:var(--red)">Hidden from map</span>':'<span style="color:var(--green)">Visible to all</span>'}`;
+  }
+}
+window.openCatMgr=openCatMgr;
+window.closeCatMgr=closeCatMgr;
+window.applyAndCloseCatMgr=applyAndCloseCatMgr;
+window.toggleCatVisibility=toggleCatVisibility;
 
 // ═══════════════════════════════════════════════
 // INIT
