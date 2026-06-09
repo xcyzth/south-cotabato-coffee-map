@@ -417,9 +417,8 @@ body.admin-mode #legend{bottom:20px}
 .catmgr-toggle::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
 .catmgr-toggle.on::after{left:21px}
 .catmgr-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;position:sticky;bottom:0;background:#fff}
-/* hidden category chip */
+/* hidden category: chip and legend item disappear, but cafes stay visible */
 .chip.cat-hidden{display:none}
-/* hidden legend item */
 .leg-item.cat-hidden{display:none}
 </style>
 </head>
@@ -586,7 +585,7 @@ body.admin-mode #legend{bottom:20px}
         <div class="modal-section-title">Basic Information</div>
         <div class="form-group"><label>Cafe / Coffee Shop Name *</label><input type="text" id="f-name" placeholder="e.g. Brew & Bloom Cafe"></div>
         <div class="form-row">
-          <div class="form-group"><label>Category *</label><select id="f-cat"><option>Specialty Coffee</option><option>Cafe & Bakery</option><option>Milk Tea & Coffee</option><option>Kape Barako</option><option>Cafe & Diner</option><option>Coffee Roastery</option><option>Drive-Through Cafe</option><option>Co-Working Cafe</option><option>Other</option></select></div>
+          <div class="form-group"><label>Category</label><select id="f-cat"><option value="">— No Category —</option><option>Specialty Coffee</option><option>Cafe & Bakery</option><option>Milk Tea & Coffee</option><option>Kape Barako</option><option>Cafe & Diner</option><option>Coffee Roastery</option><option>Drive-Through Cafe</option><option>Co-Working Cafe</option><option>Other</option></select></div>
           <div class="form-group"><label>Municipality *</label><select id="f-muni"><option>Koronadal City</option><option>Banga</option><option>Lake Sebu</option><option>Norala</option><option>Polomolok</option><option>Santo Niño</option><option>Senator Ninoy Aquino</option><option>Surallah</option><option>T'Boli</option><option>Tampakan</option><option>Tantangan</option><option>Tupi</option></select></div>
         </div>
         <div class="form-group"><label>Description</label><textarea id="f-desc" placeholder="e.g. Cozy specialty coffee shop serving South Cotabato single-origin brews…"></textarea></div>
@@ -668,7 +667,7 @@ body.admin-mode #legend{bottom:20px}
     </div>
     <div class="catmgr-body">
       <div class="catmgr-intro">
-        Toggle categories on or off. <strong>Hidden categories</strong> are invisible to visitors — their cafés won't appear on the map or sidebar. This setting is saved in your browser and only visible to admins.
+        Toggle categories on or off. <strong>Hidden categories</strong> remove the filter chip and legend entry, but <strong>cafés remain visible</strong> on the map and sidebar. Settings are saved in your browser.
       </div>
       <div id="catmgr-list"></div>
     </div>
@@ -730,7 +729,7 @@ let modalMode='add',editingId=null,isSaving=false;
 let pendingProducts=[]; // [{name,photoUrl,featured}]
 let pendingMenuItems=[]; // [{name,price,desc,tag,photoUrl}]
 let pendingSpecialtyDrinks=[]; // [{name,origin,desc}]
-// Hidden categories (admin-controlled, stored in localStorage)
+// Hidden categories: chips+legend hidden, but cafes still show on map & sidebar
 let hiddenCats=new Set(JSON.parse(localStorage.getItem('coffeeMapHiddenCats')||'[]'));
 let userLat=null,userLng=null,userMarker=null,routeLayer=null;
 let dirMode='car',dirMSME=null,routeSteps=[],routeCoords=[];
@@ -1038,7 +1037,7 @@ window.openModal=openModal;window.closeModal=closeModal;
 async function saveMSME(){
   if(isSaving)return;
   const name=document.getElementById('f-name').value.trim();
-  const cat=document.getElementById('f-cat').value;
+  const cat=document.getElementById('f-cat').value||'Uncategorized';
   const muni=document.getElementById('f-muni').value;
   const desc=document.getElementById('f-desc').value.trim();
   const lat=parseFloat(document.getElementById('f-lat').value);
@@ -1300,9 +1299,9 @@ function haversine(la1,lo1,la2,lo2){const R=6371,dLat=(la2-la1)*Math.PI/180,dLon
 // ═══════════════════════════════════════════════
 // FILTERS & LIST
 // ═══════════════════════════════════════════════
-function filtered(){const q=document.getElementById('search').value.trim().toLowerCase();return allData.filter(m=>{if(hiddenCats.has(m.category))return false;const mc=activeFilter==='All'||m.category===activeFilter;const mq=!q||[m.name,m.category,m.municipality,m.description,...(m.products||[]).map(p=>p.name)].some(s=>(s||'').toLowerCase().includes(q));return mc&&mq;});}
+function filtered(){const q=document.getElementById('search').value.trim().toLowerCase();return allData.filter(m=>{const mc=activeFilter==='All'||m.category===activeFilter;const mq=!q||[m.name,m.category,m.municipality,m.description,...(m.products||[]).map(p=>p.name)].some(s=>(s||'').toLowerCase().includes(q));return mc&&mq;});}
 function applyFilters(){const fd=filtered();allData.forEach(m=>{const show=fd.find(f=>f.id===m.id);if(show){placeMarker(m);map.addLayer(markers[m.id]);}else if(markers[m.id])map.removeLayer(markers[m.id]);});buildList(fd);document.getElementById('h-shown').textContent=fd.length;}
-function buildChips(){const cats=['All',...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('chips');el.innerHTML='';cats.forEach(cat=>{const cs=cat==='All'?null:catStyle(cat);const ch=document.createElement('div');const isHidden=cat!=='All'&&hiddenCats.has(cat);ch.className='chip'+(cat===activeFilter?' on':'')+(isHidden?' cat-hidden':'');ch.textContent=cat==='All'?'🗺 All':`${cs.icon} ${cat}`;ch.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));ch.classList.add('on');applyFilters();});el.appendChild(ch);});}
+function buildChips(){const cats=['All',...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('chips');el.innerHTML='';cats.forEach(cat=>{const cs=cat==='All'?null:catStyle(cat);const isHidden=cat!=='All'&&hiddenCats.has(cat);const ch=document.createElement('div');ch.className='chip'+(cat===activeFilter?' on':'')+(isHidden?' cat-hidden':'');ch.textContent=cat==='All'?'🗺 All':`${cs.icon} ${cat}`;ch.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));ch.classList.add('on');applyFilters();});el.appendChild(ch);});}
 function buildList(data){const el=document.getElementById('msme-list');const q=document.getElementById('search').value.trim().toLowerCase();el.innerHTML='';if(!data.length){el.innerHTML='<div class="no-results">😔 No cafes found</div>';return;}const hi=s=>q?esc(s).replace(new RegExp(`(${escRe(q)})`,'gi'),'<mark>$1</mark>'):esc(s);data.forEach(m=>{const cs=catStyle(m.category);const card=document.createElement('div');card.className='mcard'+(m.id===activeId?' active':'');card.dataset.id=m.id;const logo=m.logoUrl?`<img class="mcard-logo" src="${esc(m.logoUrl)}" onerror="this.outerHTML='<div class=\\'mcard-logo-fb\\' style=\\'background:${cs.bg}\\'>${cs.icon}</div>'">`:`<div class="mcard-logo-fb" style="background:${cs.bg}">${cs.icon}</div>`;const prods=(m.products||[]).slice(0,3).map(p=>hi(p.name)).join(' · ');card.innerHTML=`${logo}<div class="mcard-info"><div class="mcard-name">${hi(m.name)}</div><div class="mcard-cat">${cs.icon} ${esc(m.category)}</div><div class="mcard-muni">📍 ${hi(m.municipality||'—')}</div><div class="mcard-prods">${prods||'—'}</div></div>`;card.addEventListener('click',()=>selectMSME(m.id));el.appendChild(card);});}
 function buildLegend(){const cats=[...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('leg-items');el.innerHTML='';cats.forEach(cat=>{const cs=catStyle(cat);const isHidden=hiddenCats.has(cat);const item=document.createElement('div');item.className='leg-item'+(isHidden?' cat-hidden':'');item.innerHTML=`<div class="ldot" style="background:${cs.color}"></div><span>${cs.icon} ${esc(cat)}</span>`;item.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.textContent.includes(cat)));applyFilters();});el.appendChild(item);});}
 
@@ -1402,6 +1401,8 @@ window.adminLogout=adminLogout;
 // ═══════════════════════════════════════════════
 // CATEGORY MANAGER
 // ═══════════════════════════════════════════════
+// Hiding a category ONLY hides the chip + legend entry.
+// Cafes in hidden categories remain fully visible on map & sidebar.
 function openCatMgr(){
   if(!isAdmin){toast('Admin access required.','error');return;}
   buildCatMgrList();
@@ -1411,55 +1412,56 @@ function closeCatMgr(){
   document.getElementById('catmgr-overlay').classList.remove('open');
 }
 function applyAndCloseCatMgr(){
-  // Save to localStorage
   localStorage.setItem('coffeeMapHiddenCats',JSON.stringify([...hiddenCats]));
   closeCatMgr();
-  // Rebuild everything
-  buildChips();buildLegend();applyFilters();updateStats();
+  buildChips();buildLegend();
   toast('✅ Category visibility updated','success');
 }
 function buildCatMgrList(){
   const cats=[...new Set(allData.map(m=>m.category).filter(Boolean))].sort();
   const el=document.getElementById('catmgr-list');
   el.innerHTML='';
-  if(!cats.length){el.innerHTML='<p style="font-size:12px;color:var(--ink3);text-align:center;padding:1rem">No categories yet. Add some cafés first.</p>';return;}
+  if(!cats.length){
+    el.innerHTML='<p style="font-size:12px;color:var(--ink3);text-align:center;padding:1rem">No categories yet. Add some cafés first.</p>';
+    return;
+  }
   cats.forEach(cat=>{
     const cs=catStyle(cat);
     const count=allData.filter(m=>m.category===cat).length;
     const isHidden=hiddenCats.has(cat);
+    const safeId=encodeURIComponent(cat).replace(/%/g,'_');
     const row=document.createElement('div');
     row.className='catmgr-row'+(isHidden?' disabled-cat':'');
-    row.id='catmgr-row-'+btoa(cat).replace(/=/g,'');
+    row.id='catmgr-row-'+safeId;
     row.innerHTML=`
       <div class="catmgr-row-icon">${cs.icon}</div>
       <div class="catmgr-row-info">
         <div class="catmgr-row-name">${esc(cat)}</div>
-        <div class="catmgr-row-count">${count} café${count!==1?'s':''} · ${isHidden?'<span style="color:var(--red)">Hidden from map</span>':'<span style="color:var(--green)">Visible to all</span>'}</div>
+        <div class="catmgr-row-count" id="catmgr-count-${safeId}">
+          ${count} café${count!==1?'s':''} &nbsp;·&nbsp;
+          ${isHidden
+            ? '<span style="color:var(--red)">⚙️ Filter chip hidden</span>'
+            : '<span style="color:var(--green)">✔ Chip visible</span>'}
+        </div>
       </div>
-      <button class="catmgr-toggle ${isHidden?'':'on'}" id="catmgr-tog-${btoa(cat).replace(/=/g,'')}" onclick="toggleCatVisibility('${esc(cat).replace(/'/g,"\\'")}',this)"></button>`;
+      <button class="catmgr-toggle ${isHidden?'':'on'}"
+        id="catmgr-tog-${safeId}"
+        onclick="toggleCatVisibility('${esc(cat).replace(/'/g,"\'").replace(/"/g,'&quot;')}','${safeId}')">
+      </button>`;
     el.appendChild(row);
   });
 }
-function toggleCatVisibility(cat,btn){
-  const isCurrentlyOn=btn.classList.contains('on');
-  if(isCurrentlyOn){
-    // Turn off = hide
-    hiddenCats.add(cat);
-    btn.classList.remove('on');
-  }else{
-    // Turn on = show
-    hiddenCats.delete(cat);
-    btn.classList.add('on');
-  }
-  // Update row appearance
-  const rowId='catmgr-row-'+btoa(cat).replace(/=/g,'');
-  const row=document.getElementById(rowId);
+function toggleCatVisibility(cat,safeId){
+  const btn=document.getElementById('catmgr-tog-'+safeId);
+  const isOn=btn.classList.contains('on');
+  if(isOn){hiddenCats.add(cat);btn.classList.remove('on');}
+  else{hiddenCats.delete(cat);btn.classList.add('on');}
+  const row=document.getElementById('catmgr-row-'+safeId);
   if(row){
-    const isNowHidden=hiddenCats.has(cat);
-    row.classList.toggle('disabled-cat',isNowHidden);
-    const countEl=row.querySelector('.catmgr-row-count');
+    row.classList.toggle('disabled-cat',hiddenCats.has(cat));
     const count=allData.filter(m=>m.category===cat).length;
-    countEl.innerHTML=`${count} café${count!==1?'s':''} · ${isNowHidden?'<span style="color:var(--red)">Hidden from map</span>':'<span style="color:var(--green)">Visible to all</span>'}`;
+    const countEl=document.getElementById('catmgr-count-'+safeId);
+    if(countEl) countEl.innerHTML=`${count} café${count!==1?'s':''} &nbsp;·&nbsp; ${hiddenCats.has(cat)?'<span style="color:var(--red)">⚙️ Filter chip hidden</span>':'<span style="color:var(--green)">✔ Chip visible</span>'}`;
   }
 }
 window.openCatMgr=openCatMgr;
