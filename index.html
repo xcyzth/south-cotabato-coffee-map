@@ -3,13 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>South Cotabato Coffee &amp; Cafe Map</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>South Cotabato MSME Directory</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --green:#5C3317;--green2:#7A4A22;--green-pale:#F5EDE5;--green-border:#D9BFA8;
+  --green:#1A6B3C;--green2:#2D9E5E;--green-pale:#E8F5EE;--green-border:#b8dfc8;
   --gold:#C9A84C;--gold-light:#F0D690;
   --ink:#1C1C1C;--ink2:#4A4A4A;--ink3:#888;
   --bg:#F4F1EB;--surface:#fff;--border:#E0DBD0;
@@ -109,109 +112,32 @@ html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var
 .gmaps-btn-link{width:100%;padding:9px;border-radius:9px;border:1px solid var(--border);background:var(--bg);color:var(--ink2);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;transition:all .15s}
 .gmaps-btn-link:hover{background:var(--green-pale);color:var(--green);border-color:var(--green-border)}
 
-/* ── Navigation Overlay — Google Maps style ── */
-#nav-overlay{display:none;position:fixed;inset:0;z-index:3000;pointer-events:none}
-#nav-overlay.active{display:block}
-
-/* Top card — current turn */
-#nav-top{
-  position:absolute;top:0;left:0;right:0;
-  background:#1967D2;color:#fff;
-  pointer-events:all;
-  box-shadow:0 4px 24px rgba(0,0,0,.32);
-  border-radius:0 0 20px 20px;
-  overflow:hidden;
-  animation:slideDown .3s cubic-bezier(.4,0,.2,1);
-}
-@keyframes slideDown{from{transform:translateY(-110%)}to{transform:translateY(0)}}
-#nav-turn-banner{display:flex;align-items:stretch;min-height:90px}
-#nav-turn-left{
-  width:96px;background:rgba(0,0,0,.20);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:5px;flex-shrink:0;padding:14px 8px;
-}
-#nav-turn-arrow{font-size:48px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
-#nav-turn-dist-label{font-size:13px;font-weight:700;color:rgba(255,255,255,.92);letter-spacing:.02em;text-align:center}
-#nav-turn-right{flex:1;padding:16px 16px;min-width:0;display:flex;flex-direction:column;justify-content:center}
-#nav-turn-instruction{font-size:20px;font-weight:700;line-height:1.25;letter-spacing:-.01em}
-#nav-turn-road-name{font-size:13px;opacity:.72;margin-top:5px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* Next-turn strip */
-#nav-next-strip{
-  background:rgba(0,0,0,.18);padding:8px 16px 10px;
-  display:flex;align-items:center;gap:10px;font-size:13px;
-}
-#nav-next-arrow{font-size:17px;opacity:.9;flex-shrink:0}
-#nav-next-text{opacity:.85;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* Street label */
-#nav-street-strip{
-  background:rgba(255,255,255,.07);padding:5px 16px;
-  font-size:11px;opacity:.65;display:flex;align-items:center;gap:5px;
-}
-
-/* Bottom bar */
-#nav-bottom{
-  position:absolute;bottom:0;left:0;right:0;
-  background:#fff;color:var(--ink);
-  pointer-events:all;
-  box-shadow:0 -4px 24px rgba(0,0,0,.14);
-  border-radius:20px 20px 0 0;
-  padding:18px 20px 22px;
-  animation:slideUp .3s cubic-bezier(.4,0,.2,1);
-}
-@keyframes slideUp{from{transform:translateY(110%)}to{transform:translateY(0)}}
-#nav-bottom-row{display:flex;align-items:center;gap:12px}
-#nav-eta-block{display:flex;flex-direction:column;flex:1;min-width:0}
-#nav-eta-mins{font-size:36px;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.03em}
-#nav-eta-detail{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:13px;color:var(--ink3)}
-#nav-eta-km{font-weight:700;color:var(--ink2)}
-#nav-dest-chip{
-  background:var(--bg);border:1px solid var(--border);
-  border-radius:20px;padding:7px 14px;
-  font-size:12px;font-weight:600;color:var(--ink2);
-  max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0;
-}
-#nav-stop-btn{
-  width:54px;height:54px;border-radius:50%;border:none;
-  background:#EA4335;color:#fff;font-size:22px;cursor:pointer;
-  box-shadow:0 4px 16px rgba(234,67,53,.38);flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  transition:transform .15s,box-shadow .15s;
-}
-#nav-stop-btn:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(234,67,53,.5)}
-#nav-stop-btn:active{transform:scale(.93)}
-
-/* Re-center button */
-#nav-recenter{
-  position:absolute;right:18px;bottom:120px;z-index:10;
-  width:46px;height:46px;border-radius:50%;
-  background:#fff;border:none;cursor:pointer;
-  box-shadow:0 2px 14px rgba(0,0,0,.20);
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;pointer-events:all;transition:transform .15s;
-}
-#nav-recenter:hover{transform:scale(1.1)}
-
-/* Arrived card */
-#nav-arrived{
-  display:none;position:fixed;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  background:#fff;border-radius:22px;
-  width:min(340px,90vw);overflow:hidden;
-  z-index:4000;box-shadow:0 20px 60px rgba(0,0,0,.25);
-  animation:popIn .4s cubic-bezier(.175,.885,.32,1.275);
-}
+/* ── Navigation Overlay ── */
+#nav-overlay{display:none;position:fixed;inset:0;z-index:3000;flex-direction:column;pointer-events:none}
+#nav-overlay.active{display:flex}
+#nav-instruction{position:absolute;top:0;left:0;right:0;background:var(--nav);color:#fff;padding:14px 16px 12px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 20px rgba(0,0,0,.35);pointer-events:all;border-bottom:3px solid var(--gold);animation:slideDown .3s ease}
+@keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+#nav-turn-icon{width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+#nav-instruction-text{flex:1;min-width:0}
+#nav-next-dist{font-size:28px;font-weight:700;color:var(--gold-light);line-height:1}
+#nav-next-step{font-size:14px;opacity:.9;margin-top:4px;line-height:1.3}
+#nav-after-step{font-size:11px;opacity:.55;margin-top:3px}
+#nav-bottom{position:absolute;bottom:0;left:0;right:0;background:var(--nav);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:16px;box-shadow:0 -4px 20px rgba(0,0,0,.35);pointer-events:all;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.nav-stat{text-align:center}
+.nav-stat-val{font-size:22px;font-weight:700;color:var(--gold-light);line-height:1}
+.nav-stat-label{font-size:10px;opacity:.6;text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.nav-sep{width:1px;height:36px;background:rgba(255,255,255,.15)}
+#nav-dest-name{flex:1;font-size:13px;opacity:.8;text-align:center;font-weight:500}
+.nav-stop-btn{padding:10px 18px;border-radius:9px;border:none;background:#b83030;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0}
+#nav-arrived{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--green);color:#fff;border-radius:16px;padding:24px 32px;text-align:center;z-index:4000;box-shadow:0 12px 40px rgba(0,0,0,.3);animation:popIn .4s cubic-bezier(.175,.885,.32,1.275)}
 @keyframes popIn{from{transform:translate(-50%,-50%) scale(.7);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
-.arr-top{background:var(--green);padding:28px 24px 22px;text-align:center;color:#fff}
-.arr-icon{font-size:50px;margin-bottom:8px}
-.arr-top h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:4px}
-.arr-top p{font-size:13px;opacity:.82}
-.arr-bottom{padding:18px 20px 22px;text-align:center}
-.arr-done-btn{width:100%;padding:13px;border-radius:12px;border:none;background:var(--green);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
-
-/* GPS dot */
-.gps-dot-outer{width:22px;height:22px;border-radius:50%;background:rgba(25,103,210,.18);display:flex;align-items:center;justify-content:center;animation:gpsPulse 2s ease-in-out infinite}
-@keyframes gpsPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.55);opacity:.45}}
-.gps-dot-inner{width:13px;height:13px;border-radius:50%;background:#1967D2;border:2.5px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,.32)}
+#nav-arrived h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;margin-bottom:8px}
+#nav-arrived p{font-size:14px;opacity:.85;margin-bottom:16px}
+#nav-arrived button{padding:10px 24px;border-radius:9px;border:none;background:#fff;color:var(--green);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.gps-dot-outer{width:20px;height:20px;border-radius:50%;background:rgba(26,92,139,.25);display:flex;align-items:center;justify-content:center;animation:gpsPulse 2s ease-in-out infinite}
+@keyframes gpsPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
+.gps-dot-inner{width:12px;height:12px;border-radius:50%;background:#1A5C8B;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3)}
 
 /* ── Map ── */
 #map{flex:1;z-index:1;min-width:0}
@@ -396,99 +322,39 @@ body.admin-mode #app{padding-top:calc(56px + 32px)}
 body.admin-mode #detail{top:calc(56px + 32px)}
 body.admin-mode #dir-panel{margin-top:0}
 body.admin-mode #legend{bottom:20px}
-
-/* ── Category Manager Modal ── */
-#catmgr-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;padding:1rem}
-#catmgr-overlay.open{display:flex}
-#catmgr-box{background:#fff;border-radius:16px;width:460px;max-width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);display:flex;flex-direction:column}
-.catmgr-head{padding:16px 20px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;background:#fff;z-index:1}
-.catmgr-head h2{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink)}
-.catmgr-head button{background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink3)}
-.catmgr-body{padding:16px 20px;display:flex;flex-direction:column;gap:8px}
-.catmgr-intro{font-size:12px;color:var(--ink3);line-height:1.6;padding:10px 12px;background:var(--bg);border-radius:8px;border:1px solid var(--border)}
-.catmgr-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;transition:border-color .15s}
-.catmgr-row.disabled-cat{opacity:.5}
-.catmgr-row-icon{font-size:20px;width:28px;text-align:center;flex-shrink:0}
-.catmgr-row-info{flex:1;min-width:0}
-.catmgr-row-name{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3}
-.catmgr-row-count{font-size:11px;color:var(--ink3);margin-top:1px}
-.catmgr-toggle{width:42px;height:24px;border-radius:20px;background:var(--border);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;border:none}
-.catmgr-toggle.on{background:var(--green)}
-.catmgr-toggle::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-.catmgr-toggle.on::after{left:21px}
-.catmgr-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;position:sticky;bottom:0;background:#fff}
-/* hidden category: chip and legend item disappear, but cafes stay visible */
-.chip.cat-hidden{display:none}
-.leg-item.cat-hidden{display:none}
 </style>
 </head>
 <body>
 
-<div id="loading"><div class="spinner"></div><h2>South Cotabato Coffee &amp; Cafe Map</h2><p id="load-msg">Loading…</p></div>
+<div id="loading"><div class="spinner"></div><h2>South Cotabato MSME Map</h2><p id="load-msg">Loading…</p></div>
 <div id="saving-bar"></div>
 
-<!-- GPS Nav Overlay — Google Maps style -->
+<!-- GPS Nav Overlay -->
 <div id="nav-overlay">
-
-  <!-- Top: current turn card -->
-  <div id="nav-top">
-    <div id="nav-turn-banner">
-      <div id="nav-turn-left">
-        <div id="nav-turn-arrow">↑</div>
-        <div id="nav-turn-dist-label">—</div>
-      </div>
-      <div id="nav-turn-right">
-        <div id="nav-turn-instruction">Calculating…</div>
-        <div id="nav-turn-road-name"></div>
-      </div>
-    </div>
-    <div id="nav-next-strip">
-      <span id="nav-next-arrow">↑</span>
-      <span id="nav-next-text">Loading next step…</span>
-    </div>
-    <div id="nav-street-strip">
-      <span>🛣</span>
-      <span id="nav-street-label">Navigating…</span>
+  <div id="nav-instruction">
+    <div id="nav-turn-icon">↑</div>
+    <div id="nav-instruction-text">
+      <div id="nav-next-dist">—</div>
+      <div id="nav-next-step">Calculating…</div>
+      <div id="nav-after-step"></div>
     </div>
   </div>
-
-  <!-- Re-centre button -->
-  <button id="nav-recenter" onclick="navRecenter()" title="Re-centre">🎯</button>
-
-  <!-- Bottom bar -->
   <div id="nav-bottom">
-    <div id="nav-bottom-row">
-      <div id="nav-eta-block">
-        <div id="nav-eta-mins">—</div>
-        <div id="nav-eta-detail">
-          <span id="nav-eta-km">—</span>
-          <span id="nav-eta-label">remaining</span>
-        </div>
-      </div>
-      <div id="nav-dest-chip">Destination</div>
-      <button id="nav-stop-btn" onclick="stopNavigation()" title="Stop">✕</button>
-    </div>
-  </div>
-
-</div>
-
-<!-- Arrived card -->
-<div id="nav-arrived">
-  <div class="arr-top">
-    <div class="arr-icon">🎉</div>
-    <h2>You have arrived!</h2>
-    <p id="nav-arrived-name">Welcome to your destination.</p>
-  </div>
-  <div class="arr-bottom">
-    <button class="arr-done-btn" onclick="stopNavigation()">Done</button>
+    <div class="nav-stat"><div class="nav-stat-val" id="nav-remain-dist">—</div><div class="nav-stat-label">Remaining</div></div>
+    <div class="nav-sep"></div>
+    <div class="nav-stat"><div class="nav-stat-val" id="nav-remain-time">—</div><div class="nav-stat-label">ETA</div></div>
+    <div class="nav-sep"></div>
+    <div id="nav-dest-name">—</div>
+    <button class="nav-stop-btn" onclick="stopNavigation()">■ Stop</button>
   </div>
 </div>
+<div id="nav-arrived"><h2>🎉 You have arrived!</h2><p id="nav-arrived-name">Welcome!</p><button onclick="stopNavigation()">Done</button></div>
 
 <!-- Header -->
 <div id="header">
-  <div class="logo"><div class="logo-box">☕</div><div class="logo-text"><h1>South Cotabato Coffee &amp; Cafe Map</h1><span>Coffee Shops &amp; Cafes Directory</span></div></div>
+  <div class="logo"><div class="logo-box">🌿</div><div class="logo-text"><h1>South Cotabato MSME Map</h1><span>Micro, Small &amp; Medium Enterprise Directory</span></div></div>
   <div class="spacer"></div>
-  <div class="hstat"><b id="h-total">—</b><small>Total Cafes</small></div>
+  <div class="hstat"><b id="h-total">—</b><small>Total MSMEs</small></div>
   <div class="hsep"></div>
   <div class="hstat"><b id="h-shown">—</b><small>Shown</small></div>
   <div class="hsep"></div>
@@ -496,7 +362,7 @@ body.admin-mode #legend{bottom:20px}
   <div class="hsep"></div>
   <button class="hbtn" onclick="loadFromDB()">↻ Refresh</button>
   <!-- Admin-only buttons — hidden from visitors -->
-  <button class="hbtn gold" id="btn-add-msme" onclick="openModal()" style="display:none">＋ Add Cafe</button>
+  <button class="hbtn gold" id="btn-add-msme" onclick="openModal()" style="display:none">＋ Add MSME</button>
   <!-- Lock icon — clicking prompts admin login -->
   <button class="hbtn" id="btn-admin-lock" onclick="showAdminLogin()" title="Admin Login" style="font-size:15px">🔒</button>
   <button class="hbtn" id="btn-admin-logout" onclick="adminLogout()" style="display:none;background:rgba(255,255,255,.25)">🔓 Logout</button>
@@ -504,8 +370,7 @@ body.admin-mode #legend{bottom:20px}
 
 <!-- Admin bar (shown when logged in) -->
 <div id="admin-bar">
-  🛡 Admin Mode — You can add, edit, and delete Cafes
-  <button onclick="openCatMgr()">🗂 Manage Categories</button>
+  🛡 Admin Mode — You can add, edit, and delete MSMEs
   <button onclick="adminLogout()">Logout</button>
 </div>
 
@@ -529,12 +394,12 @@ body.admin-mode #legend{bottom:20px}
   <!-- Sidebar -->
   <div id="sidebar">
     <div id="sidebar-top">
-      <div class="search-box"><span class="si">🔍</span><input type="text" id="search" placeholder="Search cafe, drink, location…"></div>
+      <div class="search-box"><span class="si">🔍</span><input type="text" id="search" placeholder="Search MSME, product, location…"></div>
       <div class="filter-label">Filter by Category</div>
       <div class="chips" id="chips"></div>
     </div>
     <div id="msme-list"></div>
-    <div id="sidebar-foot">☕ Click · 🧭 Directions · 🚗 Navigate</div>
+    <div id="sidebar-foot">📍 Click · 🧭 Directions · 🚗 Navigate</div>
   </div>
 
   <!-- Directions panel -->
@@ -583,12 +448,12 @@ body.admin-mode #legend{bottom:20px}
       <!-- Basic Info -->
       <div class="modal-section">
         <div class="modal-section-title">Basic Information</div>
-        <div class="form-group"><label>Cafe / Coffee Shop Name *</label><input type="text" id="f-name" placeholder="e.g. Brew & Bloom Cafe"></div>
+        <div class="form-group"><label>Business Name *</label><input type="text" id="f-name" placeholder="e.g. Juan's Bakery"></div>
         <div class="form-row">
-          <div class="form-group"><label>Category</label><select id="f-cat"><option value="">— No Category —</option><option>Specialty Coffee</option><option>Cafe & Bakery</option><option>Milk Tea & Coffee</option><option>Kape Barako</option><option>Cafe & Diner</option><option>Coffee Roastery</option><option>Drive-Through Cafe</option><option>Co-Working Cafe</option><option>Other</option></select></div>
+          <div class="form-group"><label>Category *</label><select id="f-cat"><option>Food</option><option>Agriculture</option><option>Tourism</option><option>Handicrafts</option><option>Garments</option><option>Personal Care</option><option>Construction</option><option>Retail</option><option>Services</option><option>Health</option><option>Technology</option><option>Other</option></select></div>
           <div class="form-group"><label>Municipality *</label><select id="f-muni"><option>Koronadal City</option><option>Banga</option><option>Lake Sebu</option><option>Norala</option><option>Polomolok</option><option>Santo Niño</option><option>Senator Ninoy Aquino</option><option>Surallah</option><option>T'Boli</option><option>Tampakan</option><option>Tantangan</option><option>Tupi</option></select></div>
         </div>
-        <div class="form-group"><label>Description</label><textarea id="f-desc" placeholder="e.g. Cozy specialty coffee shop serving South Cotabato single-origin brews…"></textarea></div>
+        <div class="form-group"><label>Description</label><textarea id="f-desc" placeholder="Brief description of the business…"></textarea></div>
         <div class="form-group"><label>📍 Location *</label><div class="loc-hint">Open <a href="https://maps.google.com" target="_blank">Google Maps</a> → right-click location → copy the two numbers. First = Latitude, Second = Longitude.</div></div>
         <div class="form-row">
           <div class="form-group"><label>Latitude *</label><input type="number" id="f-lat" placeholder="e.g. 6.5277" step="any"></div>
@@ -602,9 +467,9 @@ body.admin-mode #legend{bottom:20px}
 
       <!-- Products -->
       <div class="modal-section">
-        <div class="modal-section-title">Menu Items &amp; Signature Drinks <span style="font-weight:400;font-size:10px;text-transform:none;letter-spacing:0">(★ marks shown in popup — max 3 featured)</span></div>
+        <div class="modal-section-title">Products &amp; Services <span style="font-weight:400;font-size:10px;text-transform:none;letter-spacing:0">(★ marks shown in popup — max 3 featured)</span></div>
         <div class="prod-editor-list" id="prod-editor-list"></div>
-        <button class="add-prod-btn" onclick="addProductRow()">＋ Add Menu Item / Drink</button>
+        <button class="add-prod-btn" onclick="addProductRow()">＋ Add Product / Service</button>
       </div>
 
       <!-- Certifications -->
@@ -657,35 +522,14 @@ body.admin-mode #legend{bottom:20px}
   </div>
 </div>
 
-
-<!-- Category Manager Modal -->
-<div id="catmgr-overlay">
-  <div id="catmgr-box">
-    <div class="catmgr-head">
-      <h2>🗂 Manage Categories</h2>
-      <button onclick="closeCatMgr()">✕</button>
-    </div>
-    <div class="catmgr-body">
-      <div class="catmgr-intro">
-        Toggle categories on or off. <strong>Hidden categories</strong> remove the filter chip and legend entry, but <strong>cafés remain visible</strong> on the map and sidebar. Settings are saved in your browser.
-      </div>
-      <div id="catmgr-list"></div>
-    </div>
-    <div class="catmgr-foot">
-      <button class="btn-cancel" onclick="closeCatMgr()">Close</button>
-      <button class="btn-save" onclick="applyAndCloseCatMgr()">✅ Apply &amp; Close</button>
-    </div>
-  </div>
-</div>
-
 <div id="toast"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 // ═══════════════════════════════════════════════
 // CONFIG
 // ═══════════════════════════════════════════════
-const BIN_ID  = 'YOUR_NEW_BIN_ID_HERE'; // Paste your new JSONbin Bin ID
-const API_KEY = 'YOUR_NEW_API_KEY_HERE'; // Paste your JSONbin Master Key
+const BIN_ID  = '6a0fc5336610dd3ae88600f1';
+const API_KEY = '$2a$10$a1e/AizzzXrdUaPhguiWJudsGiUD1d5rA0koAXOWFBrEybY.E6uki';
 const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 const JBIN_HEADERS = {'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Versioning':'false'};
 const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjI2ZmVmMzIxYTYzMjQ0M2Q5MzU3Y2NlODcxMDU1MzNhIiwiaCI6Im11cm11cjY0In0=';
@@ -694,32 +538,34 @@ const ARRIVE_RADIUS = 50;
 
 // Seed with updated product structure
 const SEED_DATA=[
-  {id:'1',name:'Brew & Bloom Cafe',category:'Specialty Coffee',municipality:'Koronadal City',
-   products:[{name:'Iced Caramel Latte',photoUrl:'',featured:true},{name:'Spanish Latte',photoUrl:'',featured:true}],
-   description:'A cozy specialty coffee shop serving single-origin South Cotabato brews and artisan pastries.',
-   lat:6.5073,lng:124.8363,contact:'',logoUrl:'',
+  {id:'1',name:'G Farm',category:'Food',municipality:'Tantangan',
+   products:[{name:'Curd',photoUrl:'',featured:true}],
+   description:'A local farm-based food producer in Tantangan.',
+   lat:6.527680863,lng:124.8040981,contact:'',logoUrl:'',
    certs:{dti:{has:false,num:''},mayors:{has:false,num:''},bir:{has:false,num:''},fdaLto:{has:false,num:''},fdaCpr:{has:false,num:''}}},
-  {id:'2',name:'Kape Barako Hub',category:'Kape Barako',municipality:'Surallah',
-   products:[{name:'Barako Brewed Coffee',photoUrl:'',featured:true},{name:'Cafe de Leche',photoUrl:'',featured:true}],
-   description:'Traditional Filipino barako coffee sourced from local farms in the South Cotabato highlands.',
-   lat:6.3669,lng:124.7372,contact:'',logoUrl:'',
+  {id:'2',name:'Mommy Mels',category:'Food',municipality:'Koronadal City',
+   products:[{name:'Tart',photoUrl:'',featured:true}],
+   description:'Home-based food business known for delicious tarts.',
+   lat:6.507293209,lng:124.8363237,contact:'',logoUrl:'',
    certs:{dti:{has:false,num:''},mayors:{has:false,num:''},bir:{has:false,num:''},fdaLto:{has:false,num:''},fdaCpr:{has:false,num:''}}},
-  {id:'3',name:'Highland Roasters',category:'Coffee Roastery',municipality:'Lake Sebu',
-   products:[{name:'Single-Origin Arabica',photoUrl:'',featured:true},{name:'Cold Brew',photoUrl:'',featured:true}],
-   description:'An artisan coffee roastery near Lake Sebu, roasting Tboli highland arabica beans on-site.',
-   lat:6.1806,lng:124.7603,contact:'',logoUrl:'',
+  {id:'3',name:'SG Farm',category:'Tourism',municipality:'Tupi',
+   products:[{name:'Tourist Spot',photoUrl:'',featured:true}],
+   description:'A scenic farm destination in Tupi, South Cotabato.',
+   lat:6.3326,lng:124.9977,contact:'',logoUrl:'',
    certs:{dti:{has:false,num:''},mayors:{has:false,num:''},bir:{has:false,num:''},fdaLto:{has:false,num:''},fdaCpr:{has:false,num:''}}},
 ];
 
 const CAT_STYLES={
-  'specialty coffee':{color:'#5C3317',bg:'#F5EDE5',icon:'☕'},'cafe & bakery':{color:'#7A4A22',bg:'#FDF3E3',icon:'🥐'},
-  'milk tea & coffee':{color:'#8B5E3C',bg:'#F5E6D8',icon:'🧋'},'kape barako':{color:'#3D1F0D',bg:'#EDE0D4',icon:'☕'},
-  'cafe & diner':{color:'#A0522D',bg:'#FBF0E8',icon:'🍴'},'coffee roastery':{color:'#4A2C0A',bg:'#EDE0D4',icon:'🫘'},
-  'drive-through cafe':{color:'#6B3A1F',bg:'#F5E6D8',icon:'🚗'},'co-working cafe':{color:'#3A5A7A',bg:'#E8F0F8',icon:'💻'},
+  'food':{color:'#1A6B3C',bg:'#E8F5EE',icon:'🍽️'},'food & beverage':{color:'#1A6B3C',bg:'#E8F5EE',icon:'🍽️'},
+  'agriculture':{color:'#2D7A1F',bg:'#EBF5E8',icon:'🌾'},'tourism':{color:'#1A7A7A',bg:'#E8F8F8',icon:'🏖️'},
+  'handicrafts':{color:'#9C6B0A',bg:'#FDF3E3',icon:'🎁'},'garments':{color:'#6B3A8B',bg:'#F3E8FF',icon:'👗'},
+  'personal care':{color:'#B83060',bg:'#FDE8F0',icon:'💄'},'construction':{color:'#5A5A5A',bg:'#F0F0F0',icon:'🏗️'},
+  'retail':{color:'#1A5C8B',bg:'#E8F0F8',icon:'🛒'},'services':{color:'#7A5500',bg:'#FFF3E0',icon:'⚙️'},
+  'health':{color:'#8B1A1A',bg:'#FFE8E8',icon:'❤️'},'technology':{color:'#1A4A8B',bg:'#E8F0FF',icon:'💻'},
 };
-const FB=['#5C3317','#7A4A22','#8B5E3C','#3D1F0D','#A0522D','#4A2C0A','#6B3A1F','#3A5A7A','#6B4226'];
+const FB=['#1A6B3C','#9C6B0A','#2D7A1F','#6B3A8B','#B83060','#5A5A5A','#1A5C8B','#7A5500','#1A7A7A'];
 let dynCats={},dynIdx=0;
-function catStyle(cat){const k=(cat||'other').toLowerCase().trim();if(CAT_STYLES[k])return CAT_STYLES[k];if(!dynCats[k]){dynCats[k]={color:FB[dynIdx%FB.length],bg:'#F5F5F5',icon:'☕'};dynIdx++;}return dynCats[k];}
+function catStyle(cat){const k=(cat||'other').toLowerCase().trim();if(CAT_STYLES[k])return CAT_STYLES[k];if(!dynCats[k]){dynCats[k]={color:FB[dynIdx%FB.length],bg:'#F5F5F5',icon:'🏪'};dynIdx++;}return dynCats[k];}
 
 // ═══════════════════════════════════════════════
 // STATE
@@ -727,10 +573,6 @@ function catStyle(cat){const k=(cat||'other').toLowerCase().trim();if(CAT_STYLES
 let allData=[],markers={},activeFilter='All',activeId=null,map;
 let modalMode='add',editingId=null,isSaving=false;
 let pendingProducts=[]; // [{name,photoUrl,featured}]
-let pendingMenuItems=[]; // [{name,price,desc,tag,photoUrl}]
-let pendingSpecialtyDrinks=[]; // [{name,origin,desc}]
-// Hidden categories: chips+legend hidden, but cafes still show on map & sidebar
-let hiddenCats=new Set(JSON.parse(localStorage.getItem('coffeeMapHiddenCats')||'[]'));
 let userLat=null,userLng=null,userMarker=null,routeLayer=null;
 let dirMode='car',dirMSME=null,routeSteps=[],routeCoords=[];
 let isNavigating=false,watchId=null,currentStepIdx=0,spokenSteps=new Set(),arrivedShown=false;
@@ -760,24 +602,56 @@ function initMap(){
 }
 
 // ═══════════════════════════════════════════════
-// DATABASE
+// DATABASE — with retry, timeout & local cache
 // ═══════════════════════════════════════════════
+const CACHE_KEY = 'scmsme_v2';
+
+function saveCache(data){try{localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),msmes:data}));}catch(e){}}
+function loadCache(){try{const r=localStorage.getItem(CACHE_KEY);if(!r)return null;return JSON.parse(r).msmes||null;}catch{return null;}}
+
+function fetchWithTimeout(url,opts={},ms=14000){
+  const ctrl=new AbortController();
+  const t=setTimeout(()=>ctrl.abort(),ms);
+  return fetch(url,{...opts,signal:ctrl.signal}).finally(()=>clearTimeout(t));
+}
+
 async function loadFromDB(){
   setLoadMsg('Loading…');showLoading(true);
-  try{
-    const res=await fetch(BIN_URL+'/latest',{headers:{'X-Master-Key':API_KEY}});
-    if(!res.ok)throw new Error();
-    const json=await res.json();
-    let msmes=json.record?.msmes;
-    if(!msmes||!msmes.length){await saveToDB(SEED_DATA);msmes=SEED_DATA;}
-    allData=msmes.filter(m=>m.name&&!isNaN(m.lat)&&!isNaN(m.lng)).map(migrateEntry);
-    render();showLoading(false);toast('✅ '+allData.length+' Cafes loaded','success');
-  }catch{showLoading(false);allData=SEED_DATA.map(migrateEntry);render();toast('⚠️ Using cached data','error');}
+  let lastErr=null;
+  for(let attempt=1;attempt<=3;attempt++){
+    try{
+      setLoadMsg(attempt>1?`Retrying… (${attempt}/3)`:'Loading MSME data…');
+      const res=await fetchWithTimeout(BIN_URL+'/latest',{headers:{'X-Master-Key':API_KEY}},14000);
+      if(!res.ok)throw new Error('HTTP '+res.status);
+      const json=await res.json();
+      let msmes=json.record?.msmes;
+      if(!msmes||!msmes.length){setLoadMsg('Setting up…');await saveToDB(SEED_DATA);msmes=SEED_DATA;}
+      allData=msmes.filter(m=>m.name&&!isNaN(m.lat)&&!isNaN(m.lng)).map(migrateEntry);
+      saveCache(allData);
+      render();showLoading(false);
+      toast('✅ '+allData.length+' MSMEs loaded','success');
+      return;
+    }catch(e){lastErr=e;console.warn(`Attempt ${attempt} failed:`,e.message);if(attempt<3)await new Promise(r=>setTimeout(r,attempt*2000));}
+  }
+  // All retries failed — use cache
+  showLoading(false);
+  const cached=loadCache();
+  if(cached&&cached.length){
+    allData=cached.map(migrateEntry);render();
+    toast('⚠️ Offline — showing saved data. Pull to refresh.','error');
+  }else{
+    allData=SEED_DATA.map(migrateEntry);render();
+    toast('⚠️ Could not connect. Showing defaults.','error');
+  }
 }
+
 async function saveToDB(data){
   showSavingBar(true);
-  try{const res=await fetch(BIN_URL,{method:'PUT',headers:JBIN_HEADERS,body:JSON.stringify({msmes:data})});if(!res.ok)throw new Error();showSavingBar(false);return true;}
-  catch{showSavingBar(false);toast('❌ Save failed','error');return false;}
+  try{
+    const res=await fetchWithTimeout(BIN_URL,{method:'PUT',headers:JBIN_HEADERS,body:JSON.stringify({msmes:data})},14000);
+    if(!res.ok)throw new Error();
+    saveCache(data);showSavingBar(false);return true;
+  }catch{showSavingBar(false);toast('❌ Save failed','error');return false;}
 }
 
 // ═══════════════════════════════════════════════
@@ -823,13 +697,13 @@ function buildPopupHTML(m){
     });
     prodGrid+=`</div>`;
   }else{
-    prodGrid=`<div style="font-size:11px;color:var(--ink3);margin-bottom:8px">No menu items listed yet.</div>`;
+    prodGrid=`<div style="font-size:11px;color:var(--ink3);margin-bottom:8px">No products listed yet.</div>`;
   }
   const logo=m.logoUrl?`<img class="pu-logo" src="${esc(m.logoUrl)}" onerror="this.outerHTML='<div class=\\'pu-logo-fb\\' style=\\'background:${cs.bg}\\'>${cs.icon}</div>'">`:
     `<div class="pu-logo-fb" style="background:${cs.bg}">${cs.icon}</div>`;
   return `<div class="pu-head">${logo}<div><div class="pu-name">${esc(m.name)}</div><span class="pu-badge" style="background:${cs.bg};color:${cs.color}">${cs.icon} ${esc(m.category)}</span></div></div>
   <div class="pu-body">
-    <div class="pu-lbl">Signature Drinks / Menu</div>
+    <div class="pu-lbl">Featured Products</div>
     ${prodGrid}
     <div class="pu-meta"><span>📍 ${esc(m.municipality||'—')}</span>${m.contact?`<span>📞 ${esc(m.contact)}</span>`:''}</div>
   </div>
@@ -875,7 +749,7 @@ function openDetail(id){
     });
     galleryHTML+=`</div>`;
   }else{
-    galleryHTML=`<p>No menu items listed yet.</p>`;
+    galleryHTML=`<p>No products listed yet.</p>`;
   }
 
   // Certifications
@@ -907,9 +781,9 @@ function openDetail(id){
 
   document.getElementById('db').innerHTML=`
     ${m.description?`<div class="ds"><h3>About</h3><p>${esc(m.description)}</p></div>`:''}
-    <div class="ds"><h3>Menu Items (${prods.length})</h3>${galleryHTML}</div>
+    <div class="ds"><h3>Products &amp; Services (${prods.length})</h3>${galleryHTML}</div>
     <div class="ds">
-      <h3>Cafe Info</h3>
+      <h3>Business Info</h3>
       <div class="irow"><span class="ikey">Category</span><span class="ival">${esc(m.category)}</span></div>
       ${m.municipality?`<div class="irow"><span class="ikey">Municipality</span><span class="ival">${esc(m.municipality)}</span></div>`:''}
       ${m.contact?`<div class="irow"><span class="ikey">Contact</span><span class="ival">${esc(m.contact)}</span></div>`:''}
@@ -934,8 +808,8 @@ function renderProdEditor(){
   const el=document.getElementById('prod-editor-list');el.innerHTML='';
   pendingProducts.forEach((p,i)=>{
     const div=document.createElement('div');div.className='prod-editor-item';
-    const img=p.photoUrl?`<img class="prod-editor-img" src="${esc(p.photoUrl)}" onerror="this.className='prod-editor-img-fb';this.innerHTML='☕'">`
-      :`<div class="prod-editor-img-fb">☕</div>`;
+    const img=p.photoUrl?`<img class="prod-editor-img" src="${esc(p.photoUrl)}" onerror="this.className='prod-editor-img-fb';this.innerHTML='🛍'">`
+      :`<div class="prod-editor-img-fb">🛍</div>`;
     const featCount=pendingProducts.filter(x=>x.featured).length;
     const canFeature=p.featured||(featCount<3);
     div.innerHTML=`${img}
@@ -999,10 +873,10 @@ function readCerts(){
 // ═══════════════════════════════════════════════
 function openModal(){
   modalMode='add';editingId=null;pendingProducts=[];
-  document.getElementById('modal-title').textContent='➕ Add New Cafe';
+  document.getElementById('modal-title').textContent='➕ Add New MSME';
   document.getElementById('save-btn-text').textContent='Add to Map';
   ['f-name','f-desc','f-lat','f-lng','f-contact','f-logo'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('f-cat').value='Specialty Coffee';document.getElementById('f-muni').value='Koronadal City';
+  document.getElementById('f-cat').value='Food';document.getElementById('f-muni').value='Koronadal City';
   ['dti','mayors','bir','fda-lto','fda-cpr'].forEach(k=>setCertState(k,false,''));
   renderProdEditor();
   document.getElementById('modal-overlay').classList.add('open');
@@ -1011,10 +885,10 @@ function openEditModal(id){
   const m=allData.find(x=>x.id===id);if(!m)return;
   modalMode='edit';editingId=id;
   pendingProducts=(m.products||[]).map(p=>({...p}));
-  document.getElementById('modal-title').textContent='✏️ Edit Cafe';
+  document.getElementById('modal-title').textContent='✏️ Edit MSME';
   document.getElementById('save-btn-text').textContent='Save Changes';
   document.getElementById('f-name').value=m.name||'';
-  document.getElementById('f-cat').value=m.category||'Specialty Coffee';
+  document.getElementById('f-cat').value=m.category||'Food';
   document.getElementById('f-muni').value=m.municipality||'Koronadal City';
   document.getElementById('f-desc').value=m.description||'';
   document.getElementById('f-lat').value=m.lat||'';
@@ -1037,7 +911,7 @@ window.openModal=openModal;window.closeModal=closeModal;
 async function saveMSME(){
   if(isSaving)return;
   const name=document.getElementById('f-name').value.trim();
-  const cat=document.getElementById('f-cat').value||'Uncategorized';
+  const cat=document.getElementById('f-cat').value;
   const muni=document.getElementById('f-muni').value;
   const desc=document.getElementById('f-desc').value.trim();
   const lat=parseFloat(document.getElementById('f-lat').value);
@@ -1078,7 +952,7 @@ window.saveMSME=saveMSME;
 function fmtDist(m){return m>=1000?(m/1000).toFixed(1)+' km':Math.round(m)+' m';}
 function fmtTime(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return h>0?h+'h '+m+'min':m<1?'<1 min':m+' min';}
 const TURN_ICONS={'turn left':'↰','turn right':'↱','slight left':'↖','slight right':'↗','sharp left':'⬅','sharp right':'➡','keep left':'↖','keep right':'↗','continue':'↑','head':'↑','roundabout':'🔄','arrive':'🎯','depart':'🟢','ferry':'⛴','uturn':'↩'};
-function stepIcon(txt){return getArrow(txt);}
+function stepIcon(txt){const t=(txt||'').toLowerCase();for(const[k,v]of Object.entries(TURN_ICONS))if(t.includes(k))return v;return '↑';}
 function setDirStatus(html){document.getElementById('dir-steps').innerHTML=`<div class="dir-status">${html}</div>`;document.getElementById('dir-summary').style.display='none';}
 function updateGmapsLink(fLat,fLng,tLat,tLng){const mode={car:'driving',bike:'bicycling',walk:'walking'}[dirMode];const origin=fLat?`&origin=${fLat},${fLng}`:'';document.getElementById('gmaps-btn').href=`https://www.google.com/maps/dir/?api=1${origin}&destination=${tLat},${tLng}&travelmode=${mode}`;}
 
@@ -1137,159 +1011,24 @@ window.toggleNavigation=toggleNavigation;
 function startNavigation(){
   if(!routeSteps.length){toast('Get directions first.','error');return;}
   isNavigating=true;arrivedShown=false;
-
-  // Go full-screen: hide sidebar, directions panel, header stats
-  document.getElementById('nav-overlay').classList.add('active');
-  document.getElementById('sidebar').style.display='none';
-  document.getElementById('dir-panel').classList.remove('open');
-  document.getElementById('legend').style.display='none';
-  document.getElementById('header').style.display='none';
-
-  // Update dest chip
-  document.getElementById('nav-dest-chip').textContent=dirMSME.name;
-  document.getElementById('nav-dest-chip').title=dirMSME.name;
-
-  // Update app layout — map fills full screen
-  document.getElementById('app').style.paddingTop='0';
-
-  // Update start button
-  document.getElementById('start-nav-btn').className='start-nav-btn navigating';
-  document.getElementById('start-nav-text').textContent='Stop Navigation';
-
-  map.setView([userLat,userLng],17);
-  updateNavDisplay();
-
+  document.getElementById('nav-overlay').classList.add('active');document.getElementById('nav-dest-name').textContent='→ '+dirMSME.name;
+  document.getElementById('start-nav-btn').className='start-nav-btn navigating';document.getElementById('start-nav-text').textContent='Stop Navigation';
+  map.setView([userLat,userLng],16);updateNavDisplay();
   watchId=navigator.geolocation.watchPosition(
-    pos=>{
-      userLat=pos.coords.latitude;
-      userLng=pos.coords.longitude;
-      updateUserMarker(userLat,userLng);
-      if(isNavigating) map.setView([userLat,userLng],17,{animate:true,duration:.7});
-      const d=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng)*1000;
-      if(d<=ARRIVE_RADIUS&&!arrivedShown){arrivedShown=true;showArrived();return;}
-      updateStepProgress();
-      updateNavDisplay();
-    },
-    err=>console.warn(err),
-    {enableHighAccuracy:true,maximumAge:2000,timeout:10000}
+    pos=>{userLat=pos.coords.latitude;userLng=pos.coords.longitude;updateUserMarker(userLat,userLng);if(isNavigating)map.setView([userLat,userLng],16,{animate:true,duration:.8});const d=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng)*1000;if(d<=ARRIVE_RADIUS&&!arrivedShown){arrivedShown=true;showArrived();return;}updateStepProgress();updateNavDisplay();},
+    err=>console.warn(err),{enableHighAccuracy:true,maximumAge:2000,timeout:10000}
   );
 }
-
-function stopNavigation(){
-  isNavigating=false;
-  if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null;}
-
-  // Restore UI
-  document.getElementById('nav-overlay').classList.remove('active');
-  document.getElementById('nav-arrived').style.display='none';
-  document.getElementById('sidebar').style.display='';
-  document.getElementById('legend').style.display='';
-  document.getElementById('header').style.display='flex';
-  document.getElementById('app').style.paddingTop='';
-
-  document.getElementById('start-nav-btn').className='start-nav-btn';
-  document.getElementById('start-nav-text').textContent='🚗 Start Navigation';
-}
+function stopNavigation(){isNavigating=false;if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null;}document.getElementById('nav-overlay').classList.remove('active');document.getElementById('nav-arrived').style.display='none';document.getElementById('start-nav-btn').className='start-nav-btn';document.getElementById('start-nav-text').textContent='🚗 Start Navigation';}
 window.stopNavigation=stopNavigation;
 
-function updateStepProgress(){
-  if(!routeSteps.length)return;
-  routeSteps.forEach((step,i)=>{
-    if(i<=currentStepIdx)return;
-    const wp=step.way_points;
-    if(!wp||!routeCoords[wp[0]])return;
-    const c=routeCoords[wp[0]];
-    if(haversine(userLat,userLng,c[0],c[1])*1000<30)currentStepIdx=i;
-  });
-  document.querySelectorAll('.step-item').forEach((el,i)=>{
-    el.classList.toggle('current',i===currentStepIdx);
-    const ic=document.getElementById('step-icon-'+i);
-    if(ic)ic.classList.toggle('active-step',i===currentStepIdx);
-  });
-  const curr=document.getElementById('step-'+currentStepIdx);
-  if(curr)curr.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
+function updateStepProgress(){if(!routeSteps.length)return;routeSteps.forEach((step,i)=>{if(i<currentStepIdx)return;const wp=step.way_points;if(!wp||!routeCoords[wp[0]])return;const c=routeCoords[wp[0]];if(haversine(userLat,userLng,c[0],c[1])*1000<30&&i>currentStepIdx)currentStepIdx=i;});document.querySelectorAll('.step-item').forEach((el,i)=>{el.classList.toggle('current',i===currentStepIdx);const ic=document.getElementById('step-icon-'+i);if(ic)ic.classList.toggle('active-step',i===currentStepIdx);});const curr=document.getElementById('step-'+currentStepIdx);if(curr)curr.scrollIntoView({behavior:'smooth',block:'nearest'});}
 
-function getStepCoord(si){
-  const step=routeSteps[si];
-  if(!step)return[userLat,userLng];
-  const wp=step.way_points;
-  if(!wp||!routeCoords[wp[0]])return[userLat,userLng];
-  return routeCoords[wp[0]];
-}
+function getStepCoord(si){const step=routeSteps[si];if(!step)return[userLat,userLng];const wp=step.way_points;if(!wp||!routeCoords[wp[0]])return[userLat,userLng];return routeCoords[wp[0]];}
 
-// Arrow lookup
-const ARROW_MAP={
-  'turn left':'↰','turn right':'↱',
-  'slight left':'↖','slight right':'↗',
-  'sharp left':'⬅','sharp right':'➡',
-  'keep left':'↖','keep right':'↗',
-  'continue':'↑','head':'↑',
-  'roundabout':'🔄','arrive':'🎯',
-  'depart':'🟢','ferry':'⛴','uturn':'↩'
-};
-function getArrow(txt){
-  const t=(txt||'').toLowerCase();
-  for(const[k,v]of Object.entries(ARROW_MAP))if(t.includes(k))return v;
-  return'↑';
-}
+function updateNavDisplay(){if(!routeSteps.length)return;const curr=routeSteps[currentStepIdx];const next=routeSteps[currentStepIdx+1];if(!curr)return;const[wLat,wLng]=getStepCoord(currentStepIdx);const d=haversine(userLat,userLng,wLat,wLng)*1000;document.getElementById('nav-turn-icon').textContent=stepIcon(curr.instruction);document.getElementById('nav-next-dist').textContent=fmtDist(d);document.getElementById('nav-next-step').textContent=curr.instruction;document.getElementById('nav-after-step').textContent=next?'Then: '+next.instruction:'';const total=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng)*1000;document.getElementById('nav-remain-dist').textContent=fmtDist(total);const speeds={car:50000,bike:15000,walk:5000};const eta=total/speeds[dirMode]*60;document.getElementById('nav-remain-time').textContent=eta<1?'<1 min':Math.round(eta)+' min';if(!spokenSteps.has(currentStepIdx)&&d<150){speak(curr.instruction);spokenSteps.add(currentStepIdx);}}
 
-function updateNavDisplay(){
-  if(!routeSteps.length)return;
-  const curr=routeSteps[currentStepIdx];
-  const next=routeSteps[currentStepIdx+1];
-  if(!curr)return;
-
-  const[wLat,wLng]=getStepCoord(currentStepIdx);
-  const distToTurn=haversine(userLat,userLng,wLat,wLng)*1000;
-
-  // Top card
-  document.getElementById('nav-turn-arrow').textContent=getArrow(curr.instruction);
-  document.getElementById('nav-turn-dist-label').textContent=fmtDist(distToTurn);
-  document.getElementById('nav-turn-instruction').textContent=curr.instruction;
-
-  // Road name extraction
-  const roadMatch=curr.instruction.match(/onto (.+?)(?:,|$)/i)||curr.instruction.match(/ on (.+?)(?:,|$)/i);
-  document.getElementById('nav-turn-road-name').textContent=roadMatch?roadMatch[1]:'';
-
-  // Next strip
-  if(next){
-    document.getElementById('nav-next-arrow').textContent=getArrow(next.instruction);
-    document.getElementById('nav-next-text').textContent='Then: '+next.instruction;
-    document.getElementById('nav-next-strip').style.display='flex';
-  }else{
-    document.getElementById('nav-next-strip').style.display='none';
-  }
-
-  // Street strip
-  document.getElementById('nav-street-label').textContent=roadMatch?roadMatch[1]:curr.instruction;
-
-  // Bottom bar
-  const totalDist=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng)*1000;
-  const speeds={car:50000,bike:15000,walk:5000};
-  const etaMins=Math.round(totalDist/speeds[dirMode]*60);
-  document.getElementById('nav-eta-mins').textContent=etaMins<1?'<1 min':etaMins+' min';
-  document.getElementById('nav-eta-km').textContent=fmtDist(totalDist);
-
-  // Voice
-  if(!spokenSteps.has(currentStepIdx)&&distToTurn<150){
-    speak(curr.instruction);
-    spokenSteps.add(currentStepIdx);
-  }
-}
-
-function navRecenter(){
-  if(userLat&&userLng)map.setView([userLat,userLng],17,{animate:true});
-}
-window.navRecenter=navRecenter;
-
-function showArrived(){
-  stopNavigation();
-  speak('You have arrived at '+dirMSME.name);
-  document.getElementById('nav-arrived-name').textContent='Welcome to '+dirMSME.name+'!';
-  document.getElementById('nav-arrived').style.display='block';
-  setTimeout(()=>document.getElementById('nav-arrived').style.display='none',9000);
-}
+function showArrived(){stopNavigation();speak('You have arrived at '+dirMSME.name);document.getElementById('nav-arrived-name').textContent='Welcome to '+dirMSME.name+'!';document.getElementById('nav-arrived').style.display='block';setTimeout(()=>document.getElementById('nav-arrived').style.display='none',8000);}
 
 function speak(text){if(!window.speechSynthesis)return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-PH';u.rate=1;u.pitch=1;u.volume=1;window.speechSynthesis.speak(u);}
 
@@ -1301,9 +1040,9 @@ function haversine(la1,lo1,la2,lo2){const R=6371,dLat=(la2-la1)*Math.PI/180,dLon
 // ═══════════════════════════════════════════════
 function filtered(){const q=document.getElementById('search').value.trim().toLowerCase();return allData.filter(m=>{const mc=activeFilter==='All'||m.category===activeFilter;const mq=!q||[m.name,m.category,m.municipality,m.description,...(m.products||[]).map(p=>p.name)].some(s=>(s||'').toLowerCase().includes(q));return mc&&mq;});}
 function applyFilters(){const fd=filtered();allData.forEach(m=>{const show=fd.find(f=>f.id===m.id);if(show){placeMarker(m);map.addLayer(markers[m.id]);}else if(markers[m.id])map.removeLayer(markers[m.id]);});buildList(fd);document.getElementById('h-shown').textContent=fd.length;}
-function buildChips(){const cats=['All',...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('chips');el.innerHTML='';cats.forEach(cat=>{const cs=cat==='All'?null:catStyle(cat);const isHidden=cat!=='All'&&hiddenCats.has(cat);const ch=document.createElement('div');ch.className='chip'+(cat===activeFilter?' on':'')+(isHidden?' cat-hidden':'');ch.textContent=cat==='All'?'🗺 All':`${cs.icon} ${cat}`;ch.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));ch.classList.add('on');applyFilters();});el.appendChild(ch);});}
-function buildList(data){const el=document.getElementById('msme-list');const q=document.getElementById('search').value.trim().toLowerCase();el.innerHTML='';if(!data.length){el.innerHTML='<div class="no-results">😔 No cafes found</div>';return;}const hi=s=>q?esc(s).replace(new RegExp(`(${escRe(q)})`,'gi'),'<mark>$1</mark>'):esc(s);data.forEach(m=>{const cs=catStyle(m.category);const card=document.createElement('div');card.className='mcard'+(m.id===activeId?' active':'');card.dataset.id=m.id;const logo=m.logoUrl?`<img class="mcard-logo" src="${esc(m.logoUrl)}" onerror="this.outerHTML='<div class=\\'mcard-logo-fb\\' style=\\'background:${cs.bg}\\'>${cs.icon}</div>'">`:`<div class="mcard-logo-fb" style="background:${cs.bg}">${cs.icon}</div>`;const prods=(m.products||[]).slice(0,3).map(p=>hi(p.name)).join(' · ');card.innerHTML=`${logo}<div class="mcard-info"><div class="mcard-name">${hi(m.name)}</div><div class="mcard-cat">${cs.icon} ${esc(m.category)}</div><div class="mcard-muni">📍 ${hi(m.municipality||'—')}</div><div class="mcard-prods">${prods||'—'}</div></div>`;card.addEventListener('click',()=>selectMSME(m.id));el.appendChild(card);});}
-function buildLegend(){const cats=[...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('leg-items');el.innerHTML='';cats.forEach(cat=>{const cs=catStyle(cat);const isHidden=hiddenCats.has(cat);const item=document.createElement('div');item.className='leg-item'+(isHidden?' cat-hidden':'');item.innerHTML=`<div class="ldot" style="background:${cs.color}"></div><span>${cs.icon} ${esc(cat)}</span>`;item.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.textContent.includes(cat)));applyFilters();});el.appendChild(item);});}
+function buildChips(){const cats=['All',...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('chips');el.innerHTML='';cats.forEach(cat=>{const cs=cat==='All'?null:catStyle(cat);const ch=document.createElement('div');ch.className='chip'+(cat===activeFilter?' on':'');ch.textContent=cat==='All'?'🗺 All':`${cs.icon} ${cat}`;ch.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));ch.classList.add('on');applyFilters();});el.appendChild(ch);});}
+function buildList(data){const el=document.getElementById('msme-list');const q=document.getElementById('search').value.trim().toLowerCase();el.innerHTML='';if(!data.length){el.innerHTML='<div class="no-results">😔 No MSMEs found</div>';return;}const hi=s=>q?esc(s).replace(new RegExp(`(${escRe(q)})`,'gi'),'<mark>$1</mark>'):esc(s);data.forEach(m=>{const cs=catStyle(m.category);const card=document.createElement('div');card.className='mcard'+(m.id===activeId?' active':'');card.dataset.id=m.id;const logo=m.logoUrl?`<img class="mcard-logo" src="${esc(m.logoUrl)}" onerror="this.outerHTML='<div class=\\'mcard-logo-fb\\' style=\\'background:${cs.bg}\\'>${cs.icon}</div>'">`:`<div class="mcard-logo-fb" style="background:${cs.bg}">${cs.icon}</div>`;const prods=(m.products||[]).slice(0,3).map(p=>hi(p.name)).join(' · ');card.innerHTML=`${logo}<div class="mcard-info"><div class="mcard-name">${hi(m.name)}</div><div class="mcard-cat">${cs.icon} ${esc(m.category)}</div><div class="mcard-muni">📍 ${hi(m.municipality||'—')}</div><div class="mcard-prods">${prods||'—'}</div></div>`;card.addEventListener('click',()=>selectMSME(m.id));el.appendChild(card);});}
+function buildLegend(){const cats=[...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('leg-items');el.innerHTML='';cats.forEach(cat=>{const cs=catStyle(cat);const item=document.createElement('div');item.className='leg-item';item.innerHTML=`<div class="ldot" style="background:${cs.color}"></div><span>${cs.icon} ${esc(cat)}</span>`;item.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.textContent.includes(cat)));applyFilters();});el.appendChild(item);});}
 
 // ═══════════════════════════════════════════════
 // SELECT
@@ -1333,7 +1072,7 @@ function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
 // ADMIN AUTH
 // ═══════════════════════════════════════════════
 // Change this password to whatever you want!
-const ADMIN_HASH = 'coffeemap'; // Change this to your own password!
+const ADMIN_HASH = 'dtiscmsmemap'; // <- YOUR PASSWORD (change this)
 
 let isAdmin = false;
 
@@ -1396,78 +1135,6 @@ window.closeAdminLogin=closeAdminLogin;
 window.togglePwVis=togglePwVis;
 window.doAdminLogin=doAdminLogin;
 window.adminLogout=adminLogout;
-
-
-// ═══════════════════════════════════════════════
-// CATEGORY MANAGER
-// ═══════════════════════════════════════════════
-// Hiding a category ONLY hides the chip + legend entry.
-// Cafes in hidden categories remain fully visible on map & sidebar.
-function openCatMgr(){
-  if(!isAdmin){toast('Admin access required.','error');return;}
-  buildCatMgrList();
-  document.getElementById('catmgr-overlay').classList.add('open');
-}
-function closeCatMgr(){
-  document.getElementById('catmgr-overlay').classList.remove('open');
-}
-function applyAndCloseCatMgr(){
-  localStorage.setItem('coffeeMapHiddenCats',JSON.stringify([...hiddenCats]));
-  closeCatMgr();
-  buildChips();buildLegend();
-  toast('✅ Category visibility updated','success');
-}
-function buildCatMgrList(){
-  const cats=[...new Set(allData.map(m=>m.category).filter(Boolean))].sort();
-  const el=document.getElementById('catmgr-list');
-  el.innerHTML='';
-  if(!cats.length){
-    el.innerHTML='<p style="font-size:12px;color:var(--ink3);text-align:center;padding:1rem">No categories yet. Add some cafés first.</p>';
-    return;
-  }
-  cats.forEach(cat=>{
-    const cs=catStyle(cat);
-    const count=allData.filter(m=>m.category===cat).length;
-    const isHidden=hiddenCats.has(cat);
-    const safeId=encodeURIComponent(cat).replace(/%/g,'_');
-    const row=document.createElement('div');
-    row.className='catmgr-row'+(isHidden?' disabled-cat':'');
-    row.id='catmgr-row-'+safeId;
-    row.innerHTML=`
-      <div class="catmgr-row-icon">${cs.icon}</div>
-      <div class="catmgr-row-info">
-        <div class="catmgr-row-name">${esc(cat)}</div>
-        <div class="catmgr-row-count" id="catmgr-count-${safeId}">
-          ${count} café${count!==1?'s':''} &nbsp;·&nbsp;
-          ${isHidden
-            ? '<span style="color:var(--red)">⚙️ Filter chip hidden</span>'
-            : '<span style="color:var(--green)">✔ Chip visible</span>'}
-        </div>
-      </div>
-      <button class="catmgr-toggle ${isHidden?'':'on'}"
-        id="catmgr-tog-${safeId}"
-        onclick="toggleCatVisibility('${esc(cat).replace(/'/g,"\'").replace(/"/g,'&quot;')}','${safeId}')">
-      </button>`;
-    el.appendChild(row);
-  });
-}
-function toggleCatVisibility(cat,safeId){
-  const btn=document.getElementById('catmgr-tog-'+safeId);
-  const isOn=btn.classList.contains('on');
-  if(isOn){hiddenCats.add(cat);btn.classList.remove('on');}
-  else{hiddenCats.delete(cat);btn.classList.add('on');}
-  const row=document.getElementById('catmgr-row-'+safeId);
-  if(row){
-    row.classList.toggle('disabled-cat',hiddenCats.has(cat));
-    const count=allData.filter(m=>m.category===cat).length;
-    const countEl=document.getElementById('catmgr-count-'+safeId);
-    if(countEl) countEl.innerHTML=`${count} café${count!==1?'s':''} &nbsp;·&nbsp; ${hiddenCats.has(cat)?'<span style="color:var(--red)">⚙️ Filter chip hidden</span>':'<span style="color:var(--green)">✔ Chip visible</span>'}`;
-  }
-}
-window.openCatMgr=openCatMgr;
-window.closeCatMgr=closeCatMgr;
-window.applyAndCloseCatMgr=applyAndCloseCatMgr;
-window.toggleCatVisibility=toggleCatVisibility;
 
 // ═══════════════════════════════════════════════
 // INIT
